@@ -2,31 +2,36 @@ package bot
 
 import "fmt"
 
+// structure used to manipulate simplified matrix
 type matrix struct {
-	A    [][]float64
+	A    [][]int
 	n, m int // dims
 }
 
+// create a new matrix of dims (n x m).
 func newMatrix(n, m int) *matrix {
 	newM := new(matrix)
-	newM.A = make([][]float64, n)
+	newM.A = make([][]int, n)
 	for i := range newM.A {
-		newM.A[i] = make([]float64, m)
+		newM.A[i] = make([]int, m)
 	}
 	newM.n = n
 	newM.m = m
 	return newM
 }
 
-func (m *matrix) set(y, x int, v float64) {
+// set a cell of the matrix.
+func (m *matrix) set(y, x, v int) {
 	m.A[y][x] = v
 }
 
-func (m *matrix) setLine(y int, line []float64) {
+// set a line of the matrix.
+func (m *matrix) setLine(y int, line []int) {
 	copy(m.A[y], line)
 }
 
-func (m *matrix) setMatrix(A [][]float64) {
+// set the entire matrix.
+func (m *matrix) setMatrix(A [][]int) {
 	for y, line := range A {
 		m.setLine(y, line)
 	}
@@ -34,15 +39,17 @@ func (m *matrix) setMatrix(A [][]float64) {
 
 func (m *matrix) dump() {
 	for _, line := range m.A {
+		fmt.Printf("{")
 		for _, v := range line {
-			fmt.Printf("%6.2f", v)
+			fmt.Printf("%3v,", v)
 		}
-		fmt.Println()
+		fmt.Printf("},\n")
 	}
 }
 
-func (m *matrix) findPivot(x, r int) int {
-	max := -1.0
+// find the line index of the maximum for the colomn 'x'
+func (m *matrix) findMax(x, r int) int {
+	max := -1
 	k := 0
 	for y := r; y < m.n; y++ {
 		if m.A[y][x] > max {
@@ -53,21 +60,18 @@ func (m *matrix) findPivot(x, r int) int {
 	return k
 }
 
-func (m *matrix) div(y int, v float64) {
-	for x := 0; x < m.m; x++ {
-		m.A[y][x] /= v
-	}
-}
-
+// swap line 'y1' and 'y2'
 func (m *matrix) swap(y1, y2 int) {
-	line := make([]float64, m.m)
+	line := make([]int, m.m)
 	copy(line, m.A[y1])
 	copy(m.A[y1], m.A[y2])
 	copy(m.A[y2], line)
 }
 
-func (m *matrix) mult(y int, v float64) []float64 {
-	line := make([]float64, m.m)
+// return a line equal of the line 'y'
+// where each member is multiply by 'v'
+func (m *matrix) mult(y, v int) []int {
+	line := make([]int, m.m)
 	copy(line, m.A[y])
 	for x := 0; x < m.m; x++ {
 		line[x] *= v
@@ -75,38 +79,32 @@ func (m *matrix) mult(y int, v float64) []float64 {
 	return line
 }
 
-func (m *matrix) sub(y int, line []float64) {
+// substract line y with 'line'
+func (m *matrix) sub(y int, line []int) {
 	for x := 0; x < m.m; x++ {
 		m.A[y][x] -= line[x]
 	}
 }
 
-func (m *matrix) gaussJordan() {
-	m.dump()
+// Gaussian or Gauss-Jordan elimination, also known as row reduction,
+// is an algorithm in linear algebra for solving a system of linear equations.
+// We simplify the algorithm:
+//  1 - Updated member type from float to integer because we don't need float operations.
+//  2 - Removed the divide operation because the pivot is always equal to 1.
+func (m *matrix) rowReduction() {
 	r := -1 // row index of the last pivot
 	for x := 0; x < m.m-1; x++ {
-		k := m.findPivot(x, r+1)
-		fmt.Printf("Pivot: r:%d, x:%d, k:%d\n", r, x, k)
-		if m.A[k][x] != 0 {
+		k := m.findMax(x, r+1) // k is the line's index of the maximum
+		if m.A[k][x] != 0 {    // pivot
 			r++
-			fmt.Printf("A[%d][%d]:%f != 0\n", k, x, m.A[k][x])
-			fmt.Printf("dive line:%d by %f\n", k, m.A[k][x])
-			m.div(k, m.A[k][x])
-			m.dump()
 			if k != r {
-				fmt.Printf("Swap k:%d, r:%d\n", k, r)
-				m.swap(k, r)
-				m.dump()
+				m.swap(k, r) // swap line k and r (pivot's line)
 			}
-			for y := 0; y < m.n; y++ {
+			for y := 0; y < m.n; y++ { // simplify other lines
 				if y != r {
-					fmt.Printf("line %d - line %d * %f\n", y, r, m.A[y][x])
-					fmt.Println("new line:", m.mult(r, m.A[y][x]))
-					m.sub(y, m.mult(r, m.A[y][x]))
-					m.dump()
+					m.sub(y, m.mult(r, m.A[y][x])) // cancel A[y][x]
 				}
 			}
 		}
 	}
-
 }
