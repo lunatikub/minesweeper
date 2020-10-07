@@ -1,7 +1,6 @@
 package bot
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -30,16 +29,16 @@ func TestConnex(t *testing.T) {
 	c := new(connex)
 	c.getConnex(g, 0, 1)
 
-	rccExpected := listCell{{0, 1}, {1, 1}, {2, 1}, {2, 0}}
-	uccExpected := listCell{{0, 2}, {1, 2}, {2, 2}, {3, 2}, {3, 1}, {3, 0}}
+	revealExpected := listCell{{0, 1}, {1, 1}, {2, 1}, {2, 0}}
+	unrevealExpected := listCell{{0, 2}, {1, 2}, {2, 2}, {3, 2}, {3, 1}, {3, 0}}
 
-	if !testListExpected(rccExpected, c.rcc) {
+	if !testListExpected(revealExpected, c.listReveal) {
 		t.Errorf("[connex] rcc not expected:%v, got:%v",
-			rccExpected, c.rcc)
+			revealExpected, c.listReveal)
 	}
-	if !testListExpected(uccExpected, c.ucc) {
+	if !testListExpected(unrevealExpected, c.listUnreveal) {
 		t.Errorf("[connex] ucc not expected:%v, got:%v",
-			uccExpected, c.ucc)
+			unrevealExpected, c.listUnreveal)
 	}
 }
 
@@ -51,12 +50,14 @@ func TestBuildMatrix(t *testing.T) {
 		{1, 1, 9, 9},
 		{9, 9, 9, 9},
 		{9, 9, 9, 9}})
-
 	c := new(connex)
 	c.getConnex(g, 0, 1)
 	m := c.buildMatrix(g)
-	m.dump()
-	fmt.Println()
-	m.gaussJordan()
-	m.dump()
+	if !eq(m, [][]int{
+		{1, 1, 0, 0, 0, 0, 1},
+		{1, 1, 1, 0, 0, 0, 1},
+		{0, 1, 1, 1, 1, 1, 1},
+		{0, 0, 0, 0, 1, 1, 1}}) {
+		t.Errorf("RowReduction")
+	}
 }

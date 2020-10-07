@@ -2,17 +2,6 @@ package bot
 
 import "testing"
 
-func eq(m *matrix, A [][]int) bool {
-	for y, line := range A {
-		for x, v := range line {
-			if m.A[y][x] != v {
-				return false
-			}
-		}
-	}
-	return true
-}
-
 func TestFindPivot(t *testing.T) {
 	m := newMatrix(2, 2)
 	m.setMatrix([][]int{{1, 4}, {3, 2}})

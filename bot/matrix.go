@@ -8,7 +8,7 @@ type matrix struct {
 	n, m int // dims
 }
 
-// create a new matrix of dims (n x m).
+// create a new matrix of dims (n x m)
 func newMatrix(n, m int) *matrix {
 	newM := new(matrix)
 	newM.A = make([][]int, n)
@@ -20,30 +20,41 @@ func newMatrix(n, m int) *matrix {
 	return newM
 }
 
-// set a cell of the matrix.
+// set a cell of the matrix
 func (m *matrix) set(y, x, v int) {
 	m.A[y][x] = v
 }
 
-// set a line of the matrix.
+// set a line of the matrix
 func (m *matrix) setLine(y int, line []int) {
 	copy(m.A[y], line)
 }
 
-// set the entire matrix.
+// set the entire matrix
 func (m *matrix) setMatrix(A [][]int) {
 	for y, line := range A {
 		m.setLine(y, line)
 	}
 }
 
+// return true if the matrix are equal, otherwise return false
+func eq(m *matrix, A [][]int) bool {
+	for y, line := range A {
+		for x, v := range line {
+			if m.A[y][x] != v {
+				return false
+			}
+		}
+	}
+	return true
+}
+
 func (m *matrix) dump() {
 	for _, line := range m.A {
-		fmt.Printf("{")
 		for _, v := range line {
-			fmt.Printf("%3v,", v)
+			fmt.Printf("%3v", v)
 		}
-		fmt.Printf("},\n")
+		fmt.Printf("\n")
 	}
 }
 
