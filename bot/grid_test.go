@@ -2,15 +2,14 @@ package bot
 
 import "testing"
 
-func TestSetGrid(t *testing.T) {
-	g := newGrid(4, 4)
-
+func TestNewGrid(t *testing.T) {
 	cells := [][]int{
 		{0, 1, 9},
 		{0, 1, 9},
 		{1, 1, 9},
 		{9, 9, 9}}
 
+	g := newGrid(4, 3)
 	g.setGrid(cells)
 
 	for y, line := range cells {

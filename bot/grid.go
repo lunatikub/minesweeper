@@ -1,20 +1,22 @@
 package bot
 
-// grid of the minesweepers
+// Grid of the minesweepers
 type grid struct {
 	cells [][]int // cells of the grid
 	h, w  int     // height and widht of the grid
 }
 
-// create a new grid of size (h x w)
 func newGrid(h, w int) *grid {
 	g := new(grid)
-	g.cells = make([][]int, h)
-	for i := range g.cells {
-		g.cells[i] = make([]int, w)
-	}
 	g.h = h
 	g.w = w
+	g.cells = make([][]int, g.h)
+	for i := range g.cells {
+		g.cells[i] = make([]int, g.w)
+		for j := range g.cells[i] {
+			g.cells[i][j] = unreveal
+		}
+	}
 	return g
 }
 

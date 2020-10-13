@@ -14,19 +14,21 @@ var blockColor = []color.RGBA{
 	{221, 250, 195, 255}, // 1
 	{236, 237, 191, 255}, // 2
 	{237, 218, 180, 255}, // 3
-	{237, 195, 128, 255}, // 4
+	{237, 195, 138, 255}, // 4
 	{247, 161, 162, 255}, // 5
 	{254, 167, 133, 255}, // 6
 	{255, 125, 96, 255},  // 7
 	{255, 50, 60, 255},   // 8
-	{186, 189, 182, 255}, // Unreveal
+	{186, 189, 182, 255}, // unreveal
+	{46, 52, 54, 255},    // mine
 }
 
+// Recognition a grid configuration for the gnome-mines game
 type recognition struct {
 	x, y    int             // top left cell
 	sz      int             // cell width/height
 	spacing int             // space between 2 cells
-	w, h    int             // width/height (number of cell))
+	h, w    int             // width/height (number of cell))
 	bounds  image.Rectangle // bounds of the screen
 }
 
@@ -116,42 +118,54 @@ func (r *recognition) getVerticalCell(img *image.RGBA) error {
 	return nil
 }
 
-func (r *recognition) getDims() error {
+func (r *recognition) getDims() {
 	var img *image.RGBA
 	var err error
 	if img, err = screenshot.CaptureRect(r.bounds); err != nil {
-		return err
+		panic(err)
 	}
 	if err = r.getTopLeftCell(img); err != nil {
-		return err
+		panic(err)
 	}
 	if err = r.getCellSize(img); err != nil {
-		return err
+		panic(err)
 	}
 	if err = r.getSpacing(img); err != nil {
-		return err
+		panic(err)
 	}
 	r.getHorizontalCell(img)
 	r.getVerticalCell(img)
-	return nil
 }
 
-func (r *recognition) get(img *image.RGBA, y, x int) uint8 {
+func (r *recognition) get(img *image.RGBA, y, x int) int {
 	x = r.x + x*(r.sz+r.spacing) + r.sz/10
 	y = r.y + y*(r.sz+r.spacing) + r.sz/10
 	for i, v := range blockColor {
 		if v == img.At(x, y) {
-			return uint8(i)
+			return i
 		}
 	}
-	return 0
+	return unreveal
 }
 
-func (r *recognition) getConfiguration(grid *[][]uint8) {
+// GetConfiguration get the current configuration of the grid
+
+func (r *recognition) getConfiguration(g *grid) {
+	//g := newGrid(r.h, r.w)
 	img, _ := screenshot.CaptureRect(r.bounds)
 	for y := 0; y < r.h; y++ {
 		for x := 0; x < r.w; x++ {
-			(*grid)[y][x] = r.get(img, y, x)
+			if g.cells[y][x] == unreveal {
+				g.set(y, x, r.get(img, y, x))
+			}
 		}
 	}
+}
+
+// Create a new instance of the recognition
+func newRecognition(screenID int) *recognition {
+	r := new(recognition)
+	r.getBounds(screenID)
+	r.getDims()
+	return r
 }

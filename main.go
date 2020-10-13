@@ -2,21 +2,27 @@ package main
 
 import (
 	"log"
-	"os"
-	"time"
 
-	"github.com/lunatikub/botMinesweeper/bot"
+	bot "github.com/lunatikub/botMinesweeper/bot"
 )
 
 func main() {
-	_, err := bot.New(1)
-	if err != nil {
-		log.Print(err)
-		os.Exit(-1)
-	}
-	wait := 4
-	for t := 0; t < wait; t++ {
-		log.Printf("start in %d seconds...", wait-t)
-		time.Sleep(1 * time.Second)
+	b := bot.NewBot(1, 10)
+	b.FirstRdmMove()
+
+	for {
+		b.GetConfiguration()
+		b.SolveConfiguration()
+		if b.IsMoveAvailable() {
+			if win := b.Move(); win {
+				log.Printf("Win !")
+				break
+			}
+		} else {
+			log.Printf("Cannot find solution with this grid !")
+			b.Debug()
+			break
+		}
+		b.HideCursor()
 	}
 }

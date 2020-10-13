@@ -1,121 +1,123 @@
 package bot
 
-import "fmt"
+import "log"
 
-// structure used to manipulate simplified matrix
 type matrix struct {
-	A    [][]int
-	n, m int // dims
+	M          [][]int
+	upperBound []int
+	lowerBound []int
 }
 
 // create a new matrix of dims (n x m)
-func newMatrix(n, m int) *matrix {
-	newM := new(matrix)
-	newM.A = make([][]int, n)
-	for i := range newM.A {
-		newM.A[i] = make([]int, m)
+func newMatrix(h, w int) *matrix {
+	m := new(matrix)
+	m.M = make([][]int, h)
+	for i := range m.M {
+		m.M[i] = make([]int, w)
 	}
-	newM.n = n
-	newM.m = m
-	return newM
+	m.upperBound = make([]int, h)
+	m.lowerBound = make([]int, h)
+	return m
 }
 
-// set a cell of the matrix
-func (m *matrix) set(y, x, v int) {
-	m.A[y][x] = v
-}
-
-// set a line of the matrix
-func (m *matrix) setLine(y int, line []int) {
-	copy(m.A[y], line)
-}
-
-// set the entire matrix
-func (m *matrix) setMatrix(A [][]int) {
-	for y, line := range A {
-		m.setLine(y, line)
+// Get bounds should be done after rowReduction
+func (m *matrix) getBounds() {
+	for y, line := range m.M {
+		upperBound := 0
+		lowerBound := 0
+		// don't process the augmented column
+		for _, v := range line[:len(line)-1] {
+			if v > 0 {
+				upperBound += v
+			} else if v < 0 {
+				lowerBound += v
+			}
+		}
+		m.upperBound[y] = upperBound
+		m.lowerBound[y] = lowerBound
 	}
 }
 
-// return true if the matrix are equal, otherwise return false
-func eq(m *matrix, A [][]int) bool {
-	for y, line := range A {
+// Swap lines 'i' and 'j'
+func swapLine(M [][]int, i, j int) {
+	for k := 0; k < len(M[i]); k++ {
+		M[i][k], M[j][k] = M[j][k], M[i][k]
+	}
+}
+
+// Multilply each element of the line 'i' by lambda
+func multLine(M [][]int, i, lambda int) {
+	for k := 0; k < len(M[i]); k++ {
+		M[i][k] *= lambda
+	}
+}
+
+// Add to each element of the line 'i' the element of the line 'j'
+// with same index mutiply by lambda.
+func addLine(M [][]int, i, j, lambda int) {
+	for k := 0; k < len(M[i]); k++ {
+		M[i][k] += lambda * M[j][k]
+	}
+}
+
+// Return the index of the first pivot not null in the column 'j'
+// from line 'i'.
+func pivot(M [][]int, i, j int) int {
+	k := i
+	for {
+		if !(k < len(M) && M[k][j] == 0) {
+			break
+		}
+		k++
+	}
+	if k == len(M) {
+		return -1
+	}
+	return k
+}
+
+// Gauss-Jordan elimination can solve a system of equations AX = B,
+// where A is an (n × m) matrix of rank r, B is a fixed vector,
+// and X the unknown vector. We create a table with n rows and m + 1 columns
+// by bordering the matrix A by the vector B. We reduce the matrix in
+// a row-echelon form.
+func gaussJordan(M [][]int) {
+	log.Printf("[matrix] gauss-jordan row-echelon form")
+	i := 0
+	j := 0
+	for {
+		if !(i < len(M) && j < len(M[0])) {
+			break
+		}
+		r := pivot(M, i, j)
+		if r == -1 {
+			j++
+		} else {
+			if r != i {
+				swapLine(M, i, r)
+			}
+			if M[i][j] != 1 {
+				multLine(M, i, 1/M[i][j])
+			}
+			for k := 0; k < len(M); k++ {
+				if k != i && M[k][j] != 0 {
+					addLine(M, k, i, -M[k][j])
+				}
+			}
+		}
+		i++
+		j++
+	}
+}
+
+// Return true if the matrix are equal, otherwise return false
+func eq(M1, M2 [][]int) bool {
+	for y, line := range M1 {
 		for x, v := range line {
-			if m.A[y][x] != v {
+			if M2[y][x] != v {
 				return false
 			}
 		}
 	}
 	return true
-}
-
-func (m *matrix) dump() {
-	for _, line := range m.A {
-		for _, v := range line {
-			fmt.Printf("%3v", v)
-		}
-		fmt.Printf("\n")
-	}
-}
-
-// find the line index of the maximum for the colomn 'x'
-func (m *matrix) findMax(x, r int) int {
-	max := -1
-	k := 0
-	for y := r; y < m.n; y++ {
-		if m.A[y][x] > max {
-			max = m.A[y][x]
-			k = y
-		}
-	}
-	return k
-}
-
-// swap line 'y1' and 'y2'
-func (m *matrix) swap(y1, y2 int) {
-	line := make([]int, m.m)
-	copy(line, m.A[y1])
-	copy(m.A[y1], m.A[y2])
-	copy(m.A[y2], line)
-}
-
-// return a line equal of the line 'y'
-// where each member is multiply by 'v'
-func (m *matrix) mult(y, v int) []int {
-	line := make([]int, m.m)
-	copy(line, m.A[y])
-	for x := 0; x < m.m; x++ {
-		line[x] *= v
-	}
-	return line
-}
-
-// substract line y with 'line'
-func (m *matrix) sub(y int, line []int) {
-	for x := 0; x < m.m; x++ {
-		m.A[y][x] -= line[x]
-	}
-}
-
-// Gaussian or Gauss-Jordan elimination, also known as row reduction,
-// is an algorithm in linear algebra for solving a system of linear equations.
-// We simplify the algorithm:
-//  1 - Updated member type from float to integer because we don't need float operations.
-//  2 - Removed the divide operation because the pivot is always equal to 1.
-func (m *matrix) rowReduction() {
-	r := -1 // row index of the last pivot
-	for x := 0; x < m.m-1; x++ {
-		k := m.findMax(x, r+1) // k is the line's index of the maximum
-		if m.A[k][x] != 0 {    // pivot
-			r++
-			if k != r {
-				m.swap(k, r) // swap line k and r (pivot's line)
-			}
-			for y := 0; y < m.n; y++ { // simplify other lines
-				if y != r {
-					m.sub(y, m.mult(r, m.A[y][x])) // cancel A[y][x]
-				}
-			}
-		}
-	}
 }

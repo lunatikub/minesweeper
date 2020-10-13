@@ -1,67 +1,70 @@
 package bot
 
-import "testing"
+import (
+	"testing"
+)
 
-func TestFindPivot(t *testing.T) {
-	m := newMatrix(2, 2)
-	m.setMatrix([][]int{{1, 4}, {3, 2}})
-	e := 1
-	if r := m.findMax(0, 0); r != e {
-		t.Errorf("Pivot expected:%d, got:%d", e, r)
-	}
-	e = 0
-	if r := m.findMax(1, 0); r != e {
-		t.Errorf("Pivot expected:%d, got:%d", e, r)
-	}
-}
-
-func TestSwap(t *testing.T) {
-	m := newMatrix(2, 2)
-	m.setMatrix([][]int{{2, 4}, {3, 2}})
-	m.swap(0, 1)
-	if !eq(m, [][]int{{3, 2}, {2, 4}}) {
-		t.Errorf("Swap")
+func TestSwapLine(t *testing.T) {
+	M := [][]int{
+		{1, 2, 3},
+		{4, 5, 6},
+		{7, 8, 9}}
+	swapLine(M, 0, 2)
+	if M[0][0] != 7 || M[0][1] != 8 || M[0][2] != 9 ||
+		M[2][0] != 1 || M[2][1] != 2 || M[2][2] != 3 {
+		t.Errorf("swapLine")
 	}
 }
 
-func TestMult(t *testing.T) {
-	m := newMatrix(2, 2)
-	m.setMatrix([][]int{{2, 4}, {3, 2}})
-	l := m.mult(0, -1)
-	if l[0] != -2 || l[1] != -4 {
-		t.Errorf("Mult")
+func TestMultLine(t *testing.T) {
+	M := [][]int{
+		{1, 2, 3}}
+	multLine(M, 0, 2)
+	if M[0][0] != 2 || M[0][1] != 4 || M[0][2] != 6 {
+		t.Errorf("multLine")
 	}
 }
 
-func TestSub(t *testing.T) {
-	m := newMatrix(2, 2)
-	m.setMatrix([][]int{{2, 4}, {3, 2}})
-	m.sub(0, []int{1, 1})
-	if !eq(m, [][]int{{1, 3}, {3, 2}}) {
-		t.Errorf("Sub")
+func TestAddLine(t *testing.T) {
+	M := [][]int{
+		{1, 2, 3},
+		{3, 4, 5}}
+	addLine(M, 1, 0, 2)
+	if M[1][0] != 5 || M[1][1] != 8 || M[1][2] != 11 {
+		t.Errorf("addLine")
 	}
 }
 
-func TestRowReduction(t *testing.T) {
-	m := newMatrix(7, 10)
-	m.setMatrix([][]int{
+func TestPivot(t *testing.T) {
+	M := [][]int{
+		{1, 0},
+		{0, 1},
+		{0, 0},
+		{0, 2}}
+	p := pivot(M, 2, 1)
+	if p != 3 {
+		t.Errorf("pivot")
+	}
+}
+
+func TestGaussJordan(t *testing.T) {
+	M := [][]int{
 		{1, 1, 0, 0, 0, 0, 0, 0, 0, 1},
-		{1, 1, 1, 0, 0, 0, 0, 0, 0, 2},
-		{0, 1, 1, 1, 1, 1, 0, 0, 0, 3},
-		{0, 0, 0, 0, 1, 1, 0, 0, 0, 1},
-		{0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-		{0, 0, 0, 0, 0, 1, 1, 1, 1, 2},
-		{0, 0, 0, 0, 0, 0, 0, 1, 1, 1},
-	})
-	m.rowReduction()
-	if !eq(m, [][]int{
-		{1, 0, 0, -1, 0, 0, 0, 0, 0, 0},
-		{0, 1, 0, 1, 0, 0, 0, 0, 0, 1},
-		{0, 0, 1, 0, 0, 0, 0, 0, 0, 1},
-		{0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
-		{0, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+		{0, 1, 1, 0, 0, 0, 0, 0, 0, 1},
+		{0, 0, 1, 1, 1, 1, 1, 0, 0, 1},
+		{0, 0, 0, 0, 0, 0, 1, 1, 0, 1},
+		{0, 0, 1, 0, 0, 0, 1, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 1, 1, 0, 1},
+		{0, 0, 0, 0, 0, 0, 0, 1, 1, 1}}
+	gaussJordan(M)
+	if !eq(M, [][]int{
+		{1, 0, 0, 0, 0, 0, 0, 0, 1, 0},
+		{0, 1, 0, 0, 0, 0, 0, 0, -1, 1},
+		{0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
+		{0, 0, 0, 1, 1, 1, 0, 0, 0, 1},
+		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 0, 0, 0, 0, 1, 0, -1, 0},
 		{0, 0, 0, 0, 0, 0, 0, 1, 1, 1}}) {
-		t.Errorf("RowReduction")
+		t.Errorf("GaussJordan")
 	}
 }

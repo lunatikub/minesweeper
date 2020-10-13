@@ -18,7 +18,7 @@ func testListExpected(le, lg listCell) bool {
 }
 
 func TestConnex(t *testing.T) {
-	g := newGrid(5, 4)
+	g := newGrid(4, 5)
 	g.setGrid([][]int{
 		{0, 1, 9, 9},
 		{0, 1, 9, 9},
@@ -27,7 +27,7 @@ func TestConnex(t *testing.T) {
 		{9, 9, 9, 9}})
 
 	c := new(connex)
-	c.getConnex(g, 0, 1)
+	c.revealedUnrevealed(g, 0, 1)
 
 	revealExpected := listCell{{0, 1}, {1, 1}, {2, 1}, {2, 0}}
 	unrevealExpected := listCell{{0, 2}, {1, 2}, {2, 2}, {3, 2}, {3, 1}, {3, 0}}
@@ -51,13 +51,13 @@ func TestBuildMatrix(t *testing.T) {
 		{9, 9, 9, 9},
 		{9, 9, 9, 9}})
 	c := new(connex)
-	c.getConnex(g, 0, 1)
+	c.revealedUnrevealed(g, 0, 1)
 	m := c.buildMatrix(g)
-	if !eq(m, [][]int{
+	if !eq(m.M, [][]int{
 		{1, 1, 0, 0, 0, 0, 1},
 		{1, 1, 1, 0, 0, 0, 1},
 		{0, 1, 1, 1, 1, 1, 1},
 		{0, 0, 0, 0, 1, 1, 1}}) {
-		t.Errorf("RowReduction")
+		t.Errorf("GaussJordan")
 	}
 }
