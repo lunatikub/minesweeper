@@ -9,7 +9,7 @@ func TestNewGrid(t *testing.T) {
 		{1, 1, 9},
 		{9, 9, 9}}
 
-	g := newGrid(4, 3)
+	g := newGrid(4, 3, unrevealCell)
 	g.setGrid(cells)
 
 	for y, line := range cells {

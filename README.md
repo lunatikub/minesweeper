@@ -1,2 +1,2 @@
-# botMinesweeper
+# minesweeper
 Minesweeper solver bot

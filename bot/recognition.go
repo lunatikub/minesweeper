@@ -43,7 +43,7 @@ func (r *recognition) getBounds(screenID int) {
 func (r *recognition) getTopLeftCell(img *image.RGBA) error {
 	for y := 0; y < r.bounds.Dy(); y++ {
 		for x := 0; x < r.bounds.Dx(); x++ {
-			if blockColor[unreveal] == img.At(x, y) {
+			if blockColor[unrevealCell] == img.At(x, y) {
 				r.x = x
 				r.y = y
 				log.Printf("[recognition] top left corner: {y:%d,x:%d}", r.y, r.x)
@@ -61,7 +61,7 @@ func (r *recognition) getCellSize(img *image.RGBA) error {
 		if x == r.bounds.Dx() {
 			return fmt.Errorf("cannot get size of a cell")
 		}
-		if blockColor[unreveal] != img.At(x, r.y) {
+		if blockColor[unrevealCell] != img.At(x, r.y) {
 			break
 		}
 		x++
@@ -78,7 +78,7 @@ func (r *recognition) getSpacing(img *image.RGBA) error {
 		if x == r.bounds.Dx() {
 			return fmt.Errorf("cannot get spacing between 2 cells")
 		}
-		if blockColor[unreveal] == img.At(x, r.y) {
+		if blockColor[unrevealCell] == img.At(x, r.y) {
 			break
 		}
 		x++
@@ -93,7 +93,7 @@ func (r *recognition) getHorizontalCell(img *image.RGBA) error {
 	x := r.x
 	shift := r.sz + r.spacing
 	for {
-		if blockColor[unreveal] != img.At(x, r.y) {
+		if blockColor[unrevealCell] != img.At(x, r.y) {
 			break
 		}
 		r.w++
@@ -108,7 +108,7 @@ func (r *recognition) getVerticalCell(img *image.RGBA) error {
 	y := r.y
 	shift := r.sz + r.spacing
 	for {
-		if blockColor[unreveal] != img.At(r.x, y) {
+		if blockColor[unrevealCell] != img.At(r.x, y) {
 			break
 		}
 		r.h++
@@ -138,24 +138,23 @@ func (r *recognition) getDims() {
 }
 
 func (r *recognition) get(img *image.RGBA, y, x int) int {
-	x = r.x + x*(r.sz+r.spacing) + r.sz/10
-	y = r.y + y*(r.sz+r.spacing) + r.sz/10
+	x = r.x + x*(r.sz+r.spacing) + 6
+	y = r.y + y*(r.sz+r.spacing) + 6
 	for i, v := range blockColor {
 		if v == img.At(x, y) {
 			return i
 		}
 	}
-	return unreveal
+	return unrevealCell
 }
 
 // GetConfiguration get the current configuration of the grid
 
 func (r *recognition) getConfiguration(g *grid) {
-	//g := newGrid(r.h, r.w)
 	img, _ := screenshot.CaptureRect(r.bounds)
 	for y := 0; y < r.h; y++ {
 		for x := 0; x < r.w; x++ {
-			if g.cells[y][x] == unreveal {
+			if g.cells[y][x] == unrevealCell {
 				g.set(y, x, r.get(img, y, x))
 			}
 		}

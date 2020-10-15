@@ -6,7 +6,7 @@ type grid struct {
 	h, w  int     // height and widht of the grid
 }
 
-func newGrid(h, w int) *grid {
+func newGrid(h, w, init int) *grid {
 	g := new(grid)
 	g.h = h
 	g.w = w
@@ -14,7 +14,7 @@ func newGrid(h, w int) *grid {
 	for i := range g.cells {
 		g.cells[i] = make([]int, g.w)
 		for j := range g.cells[i] {
-			g.cells[i][j] = unreveal
+			g.cells[i][j] = init
 		}
 	}
 	return g

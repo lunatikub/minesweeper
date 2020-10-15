@@ -1,26 +1,40 @@
 package main
 
 import (
-	"log"
+	"flag"
 
-	bot "github.com/lunatikub/botMinesweeper/bot"
+	bot "github.com/lunatikub/minesweeper/bot"
 )
 
+type options struct {
+	screenID int // screen identifier
+	mines    int // number total of mines
+}
+
+func getOptions() *options {
+	opts := new(options)
+	flag.IntVar(&opts.screenID, "screen", 0, "identifier of the screen where running gnome-mines")
+	flag.IntVar(&opts.mines, "mines", 10, "number of mines")
+	flag.Parse()
+	return opts
+}
+
 func main() {
-	b := bot.NewBot(1, 10)
+
+	opts := getOptions()
+
+	b := bot.NewBot(opts.screenID, opts.mines)
 	b.FirstRdmMove()
 
 	for {
 		b.GetConfiguration()
 		b.SolveConfiguration()
-		if b.IsMoveAvailable() {
-			if win := b.Move(); win {
-				log.Printf("Win !")
-				break
-			}
+		if b.IsSolutionAvailable() {
+			b.Move()
 		} else {
-			log.Printf("Cannot find solution with this grid !")
-			b.Debug()
+			b.SetEmptyProb()
+		}
+		if b.IsEnd() {
 			break
 		}
 		b.HideCursor()

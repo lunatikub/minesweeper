@@ -61,9 +61,9 @@ func (c *connex) revealedUnrevealed(g *grid, y, x int) {
 			v := g.get(yn, xn)
 			r, _ := c.listReveal.find(yn, xn)
 			u, _ := c.listUnreveal.find(yn, xn)
-			if v >= 1 && v <= 8 && r == nil {
+			if isRevealedValue(v) && r == nil {
 				c.revealedUnrevealed(g, yn, xn)
-			} else if v == unreveal && u == nil {
+			} else if v == unrevealCell && u == nil {
 				c.listUnreveal = append(c.listUnreveal, cell{yn, xn})
 			}
 		}
@@ -77,7 +77,7 @@ func (c *connex) unsolved(g *grid) {
 		for _, n := range neighbors {
 			yn := ce.y + n.y
 			xn := ce.x + n.x
-			if check(g.h, g.w, yn, xn) && (g.cells[yn][xn] == unreveal) {
+			if check(g.h, g.w, yn, xn) && (g.cells[yn][xn] == unrevealCell) {
 				flag = true
 			}
 		}
@@ -105,11 +105,11 @@ func (c *connex) buildMatrix(g *grid) *matrix {
 			xn := r.x + n.x
 			if check(g.h, g.w, yn, xn) {
 				v := g.get(yn, xn)
-				if v == unreveal {
+				if v == unrevealCell {
 					// list index is the column index in the matrix
 					_, x := c.listUnreveal.find(yn, xn)
 					m.M[y][x] = 1
-				} else if v == mine {
+				} else if v == mineCell {
 					nrMines++
 				}
 			}

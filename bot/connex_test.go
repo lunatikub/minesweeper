@@ -18,7 +18,7 @@ func testListExpected(le, lg listCell) bool {
 }
 
 func TestConnex(t *testing.T) {
-	g := newGrid(4, 5)
+	g := newGrid(5, 4, unrevealCell)
 	g.setGrid([][]int{
 		{0, 1, 9, 9},
 		{0, 1, 9, 9},
@@ -43,7 +43,7 @@ func TestConnex(t *testing.T) {
 }
 
 func TestBuildMatrix(t *testing.T) {
-	g := newGrid(5, 4)
+	g := newGrid(5, 4, unrevealCell)
 	g.setGrid([][]int{
 		{0, 1, 9, 9},
 		{0, 1, 9, 9},
