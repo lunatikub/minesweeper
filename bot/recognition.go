@@ -43,7 +43,7 @@ func (r *recognition) getBounds(screenID int) {
 func (r *recognition) getTopLeftCell(img *image.RGBA) error {
 	for y := 0; y < r.bounds.Dy(); y++ {
 		for x := 0; x < r.bounds.Dx(); x++ {
-			if blockColor[unrevealCell] == img.At(x, y) {
+			if blockColor[covered] == img.At(x, y) {
 				r.x = x
 				r.y = y
 				log.Printf("[recognition] top left corner: {y:%d,x:%d}", r.y, r.x)
@@ -61,7 +61,7 @@ func (r *recognition) getCellSize(img *image.RGBA) error {
 		if x == r.bounds.Dx() {
 			return fmt.Errorf("cannot get size of a cell")
 		}
-		if blockColor[unrevealCell] != img.At(x, r.y) {
+		if blockColor[covered] != img.At(x, r.y) {
 			break
 		}
 		x++
@@ -78,7 +78,7 @@ func (r *recognition) getSpacing(img *image.RGBA) error {
 		if x == r.bounds.Dx() {
 			return fmt.Errorf("cannot get spacing between 2 cells")
 		}
-		if blockColor[unrevealCell] == img.At(x, r.y) {
+		if blockColor[covered] == img.At(x, r.y) {
 			break
 		}
 		x++
@@ -93,7 +93,7 @@ func (r *recognition) getHorizontalCell(img *image.RGBA) error {
 	x := r.x
 	shift := r.sz + r.spacing
 	for {
-		if blockColor[unrevealCell] != img.At(x, r.y) {
+		if blockColor[covered] != img.At(x, r.y) {
 			break
 		}
 		r.w++
@@ -108,7 +108,7 @@ func (r *recognition) getVerticalCell(img *image.RGBA) error {
 	y := r.y
 	shift := r.sz + r.spacing
 	for {
-		if blockColor[unrevealCell] != img.At(r.x, y) {
+		if blockColor[covered] != img.At(r.x, y) {
 			break
 		}
 		r.h++
@@ -145,7 +145,7 @@ func (r *recognition) get(img *image.RGBA, y, x int) int {
 			return i
 		}
 	}
-	return unrevealCell
+	return covered
 }
 
 // GetConfiguration get the current configuration of the grid
@@ -154,7 +154,7 @@ func (r *recognition) getConfiguration(g *grid) {
 	img, _ := screenshot.CaptureRect(r.bounds)
 	for y := 0; y < r.h; y++ {
 		for x := 0; x < r.w; x++ {
-			if g.cells[y][x] == unrevealCell {
+			if g.cells[y][x] == covered {
 				g.set(y, x, r.get(img, y, x))
 			}
 		}

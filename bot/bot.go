@@ -5,9 +5,10 @@ import (
 	"time"
 )
 
+// Value from 0 to 8 are used for uncovered cell
 const (
-	unrevealCell = 9
-	mineCell     = 10
+	covered = 9
+	flagged = 10
 )
 
 // B Bot minesweeper
@@ -37,7 +38,7 @@ func NewBot(screenID, totMine int) *B {
 		time.Sleep(1 * time.Second)
 	}
 	b.i = newInteraction(b.r.h, b.r.w)
-	b.grid = newGrid(b.r.h, b.r.w, unrevealCell)
+	b.grid = newGrid(b.r.h, b.r.w, covered)
 	return b
 }
 
@@ -52,26 +53,26 @@ func lookupCreate(list *[]int, value int) bool {
 }
 
 // Find the empty cells in a grid from row-echelon form and bounds.
-func (b *B) findEmpty(m *matrix) {
+func findEmpty(m *matrix, empty *[]int) {
 	for y, line := range m.M {
 		r := line[len(line)-1]
 		for x, v := range line[:len(line)-1] {
 			if (r == m.lowerBound[y] && v > 0) ||
 				(r == m.upperBound[y] && v < 0) {
-				lookupCreate(&b.empty, x)
+				lookupCreate(empty, x)
 			}
 		}
 	}
 }
 
 // Find the mines in a grid from row-echelon form and bounds.
-func (b *B) findMines(m *matrix) {
+func findMines(m *matrix, mines *[]int) {
 	for y, line := range m.M {
 		r := line[len(line)-1]
 		for x, v := range line[:len(line)-1] {
 			if (r == m.upperBound[y] && v > 0) ||
 				(r == m.lowerBound[y] && v < 0) {
-				lookupCreate(&b.mines, x)
+				lookupCreate(mines, x)
 			}
 		}
 	}
@@ -86,7 +87,7 @@ func findUnresolvedCell(g *grid) (int, int) {
 					yn := y + n.y
 					xn := x + n.x
 					if check(g.h, g.w, yn, xn) &&
-						g.get(yn, xn) == unrevealCell {
+						g.get(yn, xn) == covered {
 						log.Printf("[bot] unresolved cell: {%v,%v}", y, x)
 						return y, x
 					}
@@ -113,8 +114,8 @@ func (b *B) SolveConfiguration() {
 	m := b.c.buildMatrix(b.grid)
 	gaussJordan(m.M)
 	m.getBounds()
-	b.findEmpty(m)
-	b.findMines(m)
+	findEmpty(m, &b.empty)
+	findMines(m, &b.mines)
 }
 
 // FirstRdmMove First has to be done randomly
@@ -153,7 +154,7 @@ func (b *B) IsSolutionAvailable() bool {
 func (b *B) Move() {
 	for _, e := range b.mines {
 		c := b.c.listUnreveal[e]
-		b.grid.cells[c.y][c.x] = mineCell
+		b.grid.cells[c.y][c.x] = flagged
 		b.nrMine++
 		b.i.move(c.y, c.x, setMine)
 	}
@@ -180,7 +181,7 @@ func (b *B) IsEnd() bool {
 	}
 	for y, line := range b.grid.cells {
 		for x, v := range line {
-			if v == unrevealCell {
+			if v == covered {
 				b.i.move(y, x, setEmpty)
 			}
 		}
