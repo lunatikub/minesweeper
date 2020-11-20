@@ -12,7 +12,7 @@ func TestGetMatrix(t *testing.T) {
 		{0, 0, 2, 9},
 		{1, 1, 2, 9},
 		{9, 9, 9, 9}}
-	adjacentMines := newMatrix(len(grid), len(grid[0]))
+	adjacentMines := NewGrid(len(grid), len(grid[0]), 0)
 	cfg := getSubConfiguration(grid)
 	A := getMatrix(grid, cfg, adjacentMines)
 

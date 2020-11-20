@@ -20,26 +20,26 @@ func getBounds(M [][]int) ([]int, []int) {
 	return lower, upper
 }
 
-func getEmpty(M [][]int, lower, upper *[]int) []int {
-	empty := []int{}
+func getEmpty(M [][]int, cfg *configuration, lower, upper *[]int) []Cell {
+	empty := []Cell{}
 	for i, row := range M {
 		r := row[len(row)-1]
 		for j, v := range row[:len(row)-1] {
 			if (r == (*lower)[i] && v > 0) || (r == (*upper)[i] && v < 0) {
-				empty = append(empty, j)
+				empty = append(empty, cfg.covered[j])
 			}
 		}
 	}
 	return empty
 }
 
-func getMines(M [][]int, lower, upper *[]int) []int {
-	mines := []int{}
+func getMines(M [][]int, cfg *configuration, lower, upper *[]int) []Cell {
+	mines := []Cell{}
 	for i, row := range M {
 		r := row[len(row)-1]
 		for j, v := range row[:len(row)-1] {
 			if (r == (*upper)[i] && v > 0) || (r == (*lower)[i] && v < 0) {
-				mines = append(mines, j)
+				mines = append(mines, cfg.covered[j])
 			}
 		}
 	}

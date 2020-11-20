@@ -5,13 +5,13 @@ func getMatrix(grid [][]int, cfg *configuration,
 	adjacentMines [][]int) [][]int {
 	N := len(cfg.unsolved)
 	M := len(cfg.covered)
-	A := newMatrix(N, M+1) // augmented matrix
+	A := NewGrid(N, M+1, 0) // augmented matrix
 
 	for i, u := range cfg.unsolved {
 		for _, e := range cfg.edges[i] {
 			A[i][e] = 1
 		}
-		A[i][M] = grid[u.y][u.x] - adjacentMines[u.y][u.x]
+		A[i][M] = grid[u.Y][u.X] - adjacentMines[u.Y][u.X]
 	}
 	return A
 }

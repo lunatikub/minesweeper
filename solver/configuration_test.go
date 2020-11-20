@@ -9,7 +9,7 @@ func listEq(l1, l2 list) bool {
 		return false
 	}
 	for _, iter := range l1 {
-		if !l2.exist(iter.y, iter.x) {
+		if !l2.exist(iter.Y, iter.X) {
 			return false
 		}
 	}
@@ -38,7 +38,7 @@ func TestSubConfiguration(t *testing.T) {
 			coveredExpected, cfg.covered)
 	}
 
-	edgesExpected := [][]cell{
+	edgesExpected := [][]Cell{
 		{{2, 4}, {0, 4}},
 		{{2, 4}},
 		{{4, 2}, {2, 4}},
@@ -47,8 +47,8 @@ func TestSubConfiguration(t *testing.T) {
 
 	for i := range cfg.unsolved {
 		for j, e := range cfg.edges[i] {
-			if cfg.covered[e].y != edgesExpected[i][j].y ||
-				cfg.covered[e].x != edgesExpected[i][j].x {
+			if cfg.covered[e].Y != edgesExpected[i][j].Y ||
+				cfg.covered[e].X != edgesExpected[i][j].X {
 				t.Errorf("[configuration] edges expected:%v", edgesExpected)
 			}
 		}
