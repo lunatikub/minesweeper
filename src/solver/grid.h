@@ -11,15 +11,6 @@ enum
   FLAGGED = 10,
 };
 
-struct grid
-{
-  /* dimensions of the grid. */
-  unsigned width;
-  unsigned height;
-  /* width * height cells. */
-  unsigned* cells;
-};
-
 /**
  * Assert if the both grid have not the same dimensions.
  */

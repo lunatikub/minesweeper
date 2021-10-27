@@ -1,12 +1,6 @@
 #ifndef __NEIGHBORS_H__
 #define __NEIGHBORS_H__
 
-struct coord
-{
-  int x;
-  int y;
-};
-
 /**
  * Relative coordinate of neighbors.
  */

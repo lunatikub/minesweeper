@@ -17,13 +17,15 @@
 #define BOLD "\e[1m"
 
 /* Declare a test. */
-#define TEST_F(name) static bool test_##name(void)
+#define TEST_F(section, name) static bool test_##section##name(void)
 
+/* clang-format off */
 /* Add a test to the test suite. */
-#define TEST(name)                                                             \
-  {                                                                            \
-#name, test_##name                                                         \
+#define TEST(section, name)                                  \
+  {                                                          \
+    #section, #name, test_ ## section ## name                \
   }
+/* clang-format on */
 
 /**
  * Structure used to declare a test.
@@ -31,6 +33,7 @@
  */
 struct test
 {
+  char* section;
   char* name;
   bool (*test_f)(void);
 };
@@ -67,20 +70,7 @@ run_test_suite(const struct test_suite* ts);
     name##_tests,                                                              \
   };                                                                           \
                                                                                \
-  int main(int argc, char** argv)                                              \
-  {                                                                            \
-    if (argc == 2) {                                                           \
-      char* name = NULL;                                                       \
-      name = argv[1];                                                          \
-      const struct test* t = find_test(&name##_test_suite, name);              \
-      if (t == NULL) {                                                         \
-        fprintf(stderr, "Test `%s` not found...", name);                       \
-        return -1;                                                             \
-      }                                                                        \
-      return run_test(t) ? 0 : -1;                                             \
-    }                                                                          \
-    return run_test_suite(&name##_test_suite) ? 0 : -1;                        \
-  }
+  int main(void) { return run_test_suite(&name##_test_suite) ? 0 : -1; }
 
 /********************************************************
  * Following macro are helpers to be used in the tests. *

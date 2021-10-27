@@ -1,8 +1,7 @@
-#include "common.h"
-#include "grid.h"
-#include "test.h"
+/* Warning: has to be included only time in the test suite.
+ * No guardians are needed. */
 
-TEST_F(basic)
+TEST_F(adjacent_mine, simple)
 {
   const static unsigned w = 2;
   const static unsigned h = 2;
@@ -32,10 +31,13 @@ TEST_F(basic)
   return true;
 }
 
-TEST_F(advanced)
+TEST_F(adjacent_mine, advanced)
 {
-  struct grid* grid = grid_new(5, 5);
-  struct grid* adjacent = grid_new(5, 5);
+  const static unsigned w = 5;
+  const static unsigned h = 5;
+
+  struct grid* grid = grid_new(w, h);
+  struct grid* adjacent = grid_new(w, h);
 
   /* clang-format off */
   static const unsigned initial_setup[] = {
@@ -64,10 +66,3 @@ TEST_F(advanced)
   grid_destroy(adjacent);
   return true;
 }
-
-const static struct test adjacent_mines_tests[] = {
-  TEST(basic),
-  TEST(advanced),
-};
-
-TEST_SUITE(adjacent_mines);

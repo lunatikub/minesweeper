@@ -3,6 +3,8 @@
 
 #include <stdio.h>
 
+#include <solver.h>
+
 #include "grid.h"
 
 #define M FLAGGED

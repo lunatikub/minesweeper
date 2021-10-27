@@ -32,7 +32,9 @@ run_test(const struct test* t)
 {
   bool ok = true;
   printf(" -\n");
-  printf(YELLOW " [start test] " BOLD "%s\n" RESET, t->name);
+  printf(YELLOW " [start test] " PURPLE "(%s)" RESET BOLD " %s\n" RESET,
+         t->section,
+         t->name);
   const uint64_t start = get_ns();
   ok = t->test_f();
   const uint64_t end = (get_ns() - start) / 1000;

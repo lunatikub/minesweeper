@@ -1,7 +1,7 @@
 test_name='test-solver'
 
 test_solver_src = files(
-  'test_adjacent_mine.c',
+  'test_solver.c',
 )
 
 test_solver = executable(
