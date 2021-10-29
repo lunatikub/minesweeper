@@ -14,7 +14,7 @@ test_solver = executable(
     test_inc,
     solver_inc,
   ],
-  c_args: flags,
+  c_args: flags + ['-DUNIT_TEST_TARGET'],
 )
 
 test('test-solver', test_solver)

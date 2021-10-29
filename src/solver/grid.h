@@ -7,7 +7,7 @@
 /* 0 to 8 are used for uncovered cell */
 enum
 {
-  COVEREAD = 9,
+  COVERED = 9,
   FLAGGED = 10,
 };
 
