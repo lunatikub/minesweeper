@@ -2,7 +2,7 @@
 #include "configuration.h"
 #include "grid.h"
 #include "solver_unit-test.h"
-#include "test.h"
+#include "utest.h"
 #include <solver.h>
 
 /** List of sub-section tests **/

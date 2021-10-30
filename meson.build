@@ -37,7 +37,7 @@ flags = c_compiler.get_supported_arguments(
 )
 
 inc = include_directories('include')
-test_inc = include_directories('tests')
+unit_test_inc = include_directories('unit-tests')
 
 # List of modules.
 modules = [
@@ -52,5 +52,5 @@ endforeach
 # Has to be done after the first previous loop in order
 # to manage circular dependencies.
 foreach module: modules
-  subdir('tests/' + module)
+  subdir('unit-tests/' + module)
 endforeach
