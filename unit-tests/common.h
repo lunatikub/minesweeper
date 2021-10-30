@@ -5,8 +5,6 @@
 
 #include <solver.h>
 
-#include "grid.h"
-
 #define M FLAGGED
 #define C COVERED
 

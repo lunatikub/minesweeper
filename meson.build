@@ -39,18 +39,9 @@ flags = c_compiler.get_supported_arguments(
 inc = include_directories('include')
 unit_test_inc = include_directories('unit-tests')
 
-# List of modules.
-modules = [
-  'solver',
-]
+# Sources
+subdir('src/solver')
+subdir('src/minesweeper')
 
-# Add sources and tests for each module.
-foreach module : modules
-  subdir('src/' + module)
-endforeach
-
-# Has to be done after the first previous loop in order
-# to manage circular dependencies.
-foreach module: modules
-  subdir('unit-tests/' + module)
-endforeach
+# Unit-tests
+subdir('unit-tests/solver')

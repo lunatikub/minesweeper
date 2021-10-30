@@ -1,7 +1,7 @@
 #ifndef __CONFIGURATION_H__
 #define __CONFIGURATION_H__
 
-#include "grid.h"
+#include <minesweeper.h>
 
 struct configuration
 {
@@ -9,6 +9,6 @@ struct configuration
 };
 
 struct configuration*
-configuration_get(const struct grid* grid);
+solver_configuration_get(const struct grid* grid);
 
 #endif /* !__CONFIGURATION_H__ */

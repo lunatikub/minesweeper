@@ -1,6 +1,5 @@
 #include "common.h"
 #include "configuration.h"
-#include "grid.h"
 #include "solver_unit-test.h"
 #include "utest.h"
 #include <solver.h>
