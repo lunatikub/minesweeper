@@ -8,6 +8,7 @@
 #include "grid.h"
 
 #define M FLAGGED
+#define C COVERED
 
 static inline void
 grid_dump(const struct grid* grid)

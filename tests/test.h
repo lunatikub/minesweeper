@@ -121,6 +121,13 @@ run_test_suite(const struct test_suite* ts);
     return false;                                                              \
   }
 
+#define EXPECT_FALSE(EXP)                                                      \
+  if ((EXP) != false) {                                                        \
+    fprintf(stderr, RED " [test failed] " RESET "EXPECT_FALSE(%s)\n", #EXP);   \
+    ERR;                                                                       \
+    return false;                                                              \
+  }
+
 /* Print information about the test. */
 #define INFO(...)                                                              \
   printf(YELLOW " [info] " RESET __VA_ARGS__);                                 \
