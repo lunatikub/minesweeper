@@ -9,6 +9,7 @@ test_solver = executable(
   '../utest.c',
   test_solver_src,
   solver_src,
+  minesweeper_src,
   include_directories: [
     inc,
     unit_test_inc,

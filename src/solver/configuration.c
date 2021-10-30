@@ -2,9 +2,8 @@
 #include <stdlib.h>
 
 #include "configuration.h"
-#include "grid.h"
-#include "neighbors.h"
 #include "solver_unit-test.h"
+#include <neighbors.h>
 #include <solver.h>
 
 static inline void
@@ -25,7 +24,7 @@ is_covered(const struct grid* grid,
  */
 PRIVATE_EXCEPT_UNIT_TEST
 bool
-find_unsolved(const struct grid* grid, struct coord* unsolved)
+solver_find_unsolved(const struct grid* grid, struct coord* unsolved)
 {
   for (unsigned y = 0; y < grid->height; ++y) {
     for (unsigned x = 0; x < grid->width; ++x) {
@@ -44,10 +43,10 @@ find_unsolved(const struct grid* grid, struct coord* unsolved)
 }
 
 struct configuration*
-configuration_get(const struct grid* grid)
+solver_configuration_get(const struct grid* grid)
 {
   struct coord unsolved;
-  if (find_unsolved(grid, &unsolved) == false) {
+  if (solver_find_unsolved(grid, &unsolved) == false) {
     return NULL;
   }
   return NULL;

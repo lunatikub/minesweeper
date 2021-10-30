@@ -6,8 +6,8 @@ TEST_F(solver, simple)
   const static unsigned w = 8;
   const static unsigned h = 8;
 
-  struct grid* solution_grid = grid_new(w, h);
-  struct grid* main_grid = grid_new(w, h);
+  struct grid* solution_grid = minesweeper_grid_new(w, h);
+  struct grid* main_grid = minesweeper_grid_new(w, h);
 
   /* clang-format off */
   static const unsigned init_solution[] = {
@@ -39,7 +39,7 @@ TEST_F(solver, simple)
   struct solution* solutions = minesweeper_solve(main_grid);
   (void)solutions;
 
-  grid_destroy(main_grid);
-  grid_destroy(solution_grid);
+  minesweeper_grid_destroy(main_grid);
+  minesweeper_grid_destroy(solution_grid);
   return true;
 }

@@ -1,5 +1,4 @@
 solver_src = files(
-  'grid.c',
   'configuration.c',
   'solver.c',
 )
