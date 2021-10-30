@@ -6,12 +6,12 @@ test_solver_src = files(
 
 test_solver = executable(
   test_name,
-  '../test.c',
+  '../utest.c',
   test_solver_src,
   solver_src,
   include_directories: [
     inc,
-    test_inc,
+    unit_test_inc,
     solver_inc,
   ],
   c_args: flags + ['-DUNIT_TEST_TARGET'],

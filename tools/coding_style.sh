@@ -10,7 +10,7 @@ CLANG_FMT=$(which clang-format-10)
 src_list=(
     src
     include
-    tests
+    unit-tests
 )
 
 ret=0
