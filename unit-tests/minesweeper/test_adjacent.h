@@ -1,7 +1,7 @@
 /* Warning: has to be included only time in the test suite.
  * No guardians are needed. */
 
-TEST_F(adjacent_mine, simple)
+TEST_F(adjacent, simple)
 {
   const static unsigned w = 2;
   const static unsigned h = 2;
@@ -22,7 +22,7 @@ TEST_F(adjacent_mine, simple)
   /* clang-format on */
 
   CELLS_SET(grid, initial_setup);
-  solver_adjacent_mines(grid, adjacent);
+  minesweeper_set_adjacent(grid, adjacent);
 
   EXPECT_TRUE(CELLS_EQ(expected_adjacent, adjacent->cells, CELLS_SZ(adjacent)));
 
@@ -31,7 +31,7 @@ TEST_F(adjacent_mine, simple)
   return true;
 }
 
-TEST_F(adjacent_mine, advanced)
+TEST_F(adjacent, advanced)
 {
   const static unsigned w = 5;
   const static unsigned h = 5;
@@ -58,7 +58,7 @@ TEST_F(adjacent_mine, advanced)
   /* clang-format on */
 
   CELLS_SET(grid, initial_setup);
-  solver_adjacent_mines(grid, adjacent);
+  minesweeper_set_adjacent(grid, adjacent);
 
   EXPECT_TRUE(CELLS_EQ(expected_adjacent, adjacent->cells, CELLS_SZ(adjacent)));
 
