@@ -18,4 +18,4 @@ test_solver = executable(
   c_args: flags + ['-DUNIT_TEST_TARGET'],
 )
 
-test('test-solver', test_solver)
+test(test_name, test_solver)

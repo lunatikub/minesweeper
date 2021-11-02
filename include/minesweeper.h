@@ -66,4 +66,14 @@ minesweeper_grid_new(unsigned width, unsigned height);
 void
 minesweeper_grid_destroy(struct grid* grid);
 
+/**
+ * Fill the adjacent mines grid given in argument with the number
+ * of mines in the neighborhood for each cell.
+ *
+ * @param grid Grid to browse.
+ * @param adjacent Grid to fill with the number of adjacent mines.
+ */
+void
+minesweeper_set_adjacent(const struct grid* grid, struct grid* adjacent);
+
 #endif /* !__MINESWEEPER_H__ */

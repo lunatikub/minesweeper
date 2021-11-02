@@ -39,9 +39,22 @@ flags = c_compiler.get_supported_arguments(
 inc = include_directories('include')
 unit_test_inc = include_directories('unit-tests')
 
-# Sources
-subdir('src/solver')
-subdir('src/minesweeper')
+modules = [
+  'minesweeper',
+  'solver',
+  'mock',
+]
 
-# Unit-tests
-subdir('unit-tests/solver')
+applications = [
+  'minesweeper',
+]
+
+foreach module : modules
+  subdir('src/' + module)
+  subdir('unit-tests/' + module)
+endforeach
+
+foreach app : applications
+  subdir('app/' + app)
+endforeach
+

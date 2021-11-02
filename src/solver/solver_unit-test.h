@@ -1,8 +1,8 @@
 #ifndef __SOLVER_UNIT_TEST_H__
 #define __SOLVER_UNIT_TEST_H__
 
-#include <stdbool.h>
 #include <minesweeper.h>
+#include <stdbool.h>
 #include <unit-test.h>
 
 /**
