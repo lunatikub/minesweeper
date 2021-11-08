@@ -10,6 +10,8 @@ struct game
   struct grid* current;  // current grid for the player
   unsigned mines;
   unsigned flagged;
+  unsigned flagged_mines;
+  unsigned covered;
   unsigned turn;
 };
 

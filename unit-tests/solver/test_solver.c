@@ -8,10 +8,12 @@
 #include "test_find_unsolved.h"
 #include "test_solver.h"
 
+/* clang-format off */
 const static struct test solver_tests[] = {
   TEST(find_unsolved, simple),
   TEST(find_unsolved, not_found),
   TEST(solver, simple),
 };
+/* clang-format on */
 
 TEST_SUITE(solver);
