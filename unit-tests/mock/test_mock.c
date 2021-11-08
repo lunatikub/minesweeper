@@ -13,6 +13,7 @@ const static struct test mock_tests[] = {
   TEST(list_cell, simple),
   TEST(list_cell, unbound),
   TEST(game, lost),
+  TEST(game, set_empty),
 };
 
 TEST_SUITE(mock);

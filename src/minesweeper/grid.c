@@ -22,18 +22,6 @@ minesweeper_grid_destroy(struct grid* grid)
   free(grid);
 }
 
-static inline void
-count_adjacent_mines(const struct grid* grid,
-                     const struct coord* src,
-                     const struct coord* dst,
-                     struct grid* adjacent)
-{
-  if (GET(grid, dst->x, dst->y) == FLAGGED) {
-    unsigned v = GET(adjacent, src->x, src->y) + 1;
-    SET(adjacent, src->x, src->y, v);
-  }
-}
-
 void
 minesweeper_set_adjacent(const struct grid* grid, struct grid* adjacent)
 {
@@ -42,7 +30,14 @@ minesweeper_set_adjacent(const struct grid* grid, struct grid* adjacent)
   for (unsigned y = 0; y < grid->height; ++y) {
     for (unsigned x = 0; x < grid->width; ++x) {
       if (GET(grid, x, y) != FLAGGED) {
-        FOREACH_NEIGHBORS(grid, x, y, count_adjacent_mines, adjacent);
+        /* clang-format off */
+        FOREACH_NEIGHBORS(
+          grid, x, y,
+          if (GET(grid, neighbor.x, neighbor.y) == FLAGGED) {
+            unsigned v = GET(adjacent, x, y) + 1;
+            SET(adjacent, x, y, v);
+          });
+        /* clang-format on */
       }
     }
   }
