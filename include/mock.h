@@ -3,6 +3,8 @@
 
 #include <stdbool.h>
 
+#include <minesweeper.h>
+
 /** Opaque structure of a minesweeper game */
 typedef struct game game_t;
 
@@ -19,17 +21,25 @@ game_t*
 mock_game_new(unsigned width, unsigned heigh, unsigned mines);
 
 /**
- * Destroy a game previously allocated with @c mock_game_new.
+ * Destroy a game.
+ *
+ * @param game game previsouly allocated with @c mock_game_new.
  */
 void
 mock_game_destroy(game_t* game);
 
 /**
  * Dump the current grid from the player point of view.
+ *
+ * @param game Handle of a game.
  */
 void
 mock_game_dump(game_t* game);
 
+/**
+ * List of the different actions can be done
+ * for a play.
+ */
 enum action
 {
   FLAG,
@@ -37,7 +47,14 @@ enum action
   SET_EMPTY,
 };
 
+/**
+ * Flag, unflag or set an empty cell.
+ *
+ * @param Handle of a game.
+ * @param Action to be done.
+ * @param coord Cell on the action has to be done.
+ */
 bool
-mock_game_play(game_t* game, enum action action, unsigned x, unsigned y);
+mock_game_play(game_t* game, enum action action, const struct coord* cell);
 
 #endif /* !__GAME_H__ */

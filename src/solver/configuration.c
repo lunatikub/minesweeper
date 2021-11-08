@@ -6,17 +6,6 @@
 #include <neighbors.h>
 #include <solver.h>
 
-static inline void
-is_covered(const struct grid* grid,
-           const struct coord* src __attribute__((unused)),
-           const struct coord* dst,
-           bool* covered_neighboor)
-{
-  if (GET(grid, dst->x, dst->y) == COVERED) {
-    *covered_neighboor = true;
-  }
-}
-
 /**
  * An unsolved cell:
  *   + is a uncovered cell between 1 and 8.
@@ -30,7 +19,13 @@ solver_find_unsolved(const struct grid* grid, struct coord* unsolved)
     for (unsigned x = 0; x < grid->width; ++x) {
       if (GET(grid, x, y) >= 1 && GET(grid, x, y) <= 8) {
         bool covered_neighboor = false;
-        FOREACH_NEIGHBORS(grid, x, y, is_covered, &covered_neighboor);
+        /* clang-format off */
+        FOREACH_NEIGHBORS(
+          grid, x, y,
+          if (GET(grid, neighbor.x, neighbor.y) == COVERED) {
+            covered_neighboor = true;
+          });
+        /* clang-format on */
         if (covered_neighboor == true) {
           unsolved->x = x;
           unsolved->y = y;

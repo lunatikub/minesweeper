@@ -15,24 +15,23 @@ const static struct coord neighbors[] = {
 /* clang-format on */
 
 /**
- * Foreach valid neighbor: call the function given in
- * parameter with the source and destination coordinates.
+ * Execute the @c CODE foreach valid neighbor.
+ * @note: provide the variable @c neighbor of type struct coord.
  *
  * @param G The current grid
  * @param X Source cell coord
  * @param Y Source cell coord
- * @param F Function to call for each valid neighbor
- * @param A Argument of the function
+ * @param CODE code to execute
  */
-#define FOREACH_NEIGHBORS(G, X, Y, F, A)                                       \
+#define FOREACH_NEIGHBORS(G, X, Y, CODE)                                       \
   do {                                                                         \
     const struct coord* N;                                                     \
-    const struct coord SRC = { (X), (Y) };                                     \
     unsigned END = sizeof(neighbors) / sizeof(struct coord);                   \
     for (N = &neighbors[0]; N != &neighbors[END]; ++N) {                       \
-      const struct coord DST = { (X) + N->x, (Y) + N->y };                     \
-      if (DST.y >= 0 && DST.y < G->height && DST.x >= 0 && DST.x < G->width) { \
-        F(G, &SRC, &DST, A);                                                   \
+      const struct coord neighbor = { (X) + N->x, (Y) + N->y };                \
+      if (neighbor.y >= 0 && neighbor.y < G->height && neighbor.x >= 0 &&      \
+          neighbor.x < G->width) {                                             \
+        CODE;                                                                  \
       }                                                                        \
     }                                                                          \
   } while (0)
