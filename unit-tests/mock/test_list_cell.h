@@ -6,7 +6,7 @@ TEST_F(list_cell, simple)
   const static unsigned w = 3;
   const static unsigned h = 3;
   struct list_cell cells;
-  struct cell *cell;
+  struct cell* cell;
 
   list_cell_create(&cells, w, h);
   {

@@ -7,7 +7,6 @@
 #include "test_adjacent.h"
 
 const static struct test minesweeper_tests[] = {
-  /* adjacent_mine */
   TEST(adjacent, simple),
   TEST(adjacent, advanced),
 };

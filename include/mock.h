@@ -1,6 +1,8 @@
 #ifndef __MOCK_H__
 #define __MOCK_H__
 
+#include <stdbool.h>
+
 /** Opaque structure of a minesweeper game */
 typedef struct game game_t;
 
@@ -27,5 +29,15 @@ mock_game_destroy(game_t* game);
  */
 void
 mock_game_dump(game_t* game);
+
+enum action
+{
+  FLAG,
+  UNFLAG,
+  SET_EMPTY,
+};
+
+bool
+mock_game_play(game_t* game, enum action action, unsigned x, unsigned y);
 
 #endif /* !__GAME_H__ */

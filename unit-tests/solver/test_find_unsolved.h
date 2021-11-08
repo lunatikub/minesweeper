@@ -3,9 +3,7 @@
 
 TEST_F(find_unsolved, simple)
 {
-  const static unsigned w = 3;
-  const static unsigned h = 3;
-
+  CFG(3, 3, 0);
   struct grid* grid = minesweeper_grid_new(w, h);
 
   /* clang-format off */
@@ -30,9 +28,7 @@ TEST_F(find_unsolved, simple)
 
 TEST_F(find_unsolved, not_found)
 {
-  const static unsigned w = 3;
-  const static unsigned h = 3;
-
+  CFG(3, 3, 0);
   struct grid* grid = minesweeper_grid_new(w, h);
 
   /* clang-format off */

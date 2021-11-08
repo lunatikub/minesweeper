@@ -3,9 +3,7 @@
 
 TEST_F(solver, simple)
 {
-  const static unsigned w = 8;
-  const static unsigned h = 8;
-
+  CFG(8, 8, 0);
   struct grid* solution_grid = minesweeper_grid_new(w, h);
   struct grid* main_grid = minesweeper_grid_new(w, h);
 

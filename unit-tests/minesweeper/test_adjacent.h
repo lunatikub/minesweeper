@@ -3,8 +3,7 @@
 
 TEST_F(adjacent, simple)
 {
-  const static unsigned w = 2;
-  const static unsigned h = 2;
+  CFG(2, 2, 0);
 
   struct grid* grid = minesweeper_grid_new(w, h);
   struct grid* adjacent = minesweeper_grid_new(w, h);
@@ -33,9 +32,7 @@ TEST_F(adjacent, simple)
 
 TEST_F(adjacent, advanced)
 {
-  const static unsigned w = 5;
-  const static unsigned h = 5;
-
+  CFG(5, 5, 0);
   struct grid* grid = minesweeper_grid_new(w, h);
   struct grid* adjacent = minesweeper_grid_new(w, h);
 

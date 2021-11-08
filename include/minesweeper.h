@@ -6,8 +6,10 @@
 /* 0 to 8 are used for uncovered cell */
 enum
 {
+  EMPTY = 0,
   COVERED = 9,
   FLAGGED = 10,
+  MINE = FLAGGED,
 };
 
 /**
