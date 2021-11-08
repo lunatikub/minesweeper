@@ -38,6 +38,22 @@ find_first_not_mine(const struct grid* grid, struct coord* coord)
   return false;
 }
 
+static inline bool
+find_first_mine(const struct grid* grid, struct coord* coord)
+{
+  unsigned x, y;
+  for (y = 0; y < grid->height; ++y) {
+    for (x = 0; x < grid->width; ++x) {
+      if (GET(grid, x, y) == MINE) {
+        coord->x = x;
+        coord->y = y;
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
 #define CELLS_SZ(G) (G->width * G->height * sizeof(unsigned))
 
 #define CELLS_EQ(C1, C2, SZ) (memcmp(C1, C2, SZ) == 0)

@@ -97,19 +97,50 @@ set_empty(const struct grid* solution,
   return true;
 }
 
-bool
+static inline void
+set_flag(struct game* game, unsigned x, unsigned y)
+{
+  SET(game->current, x, y, FLAGGED);
+  if (GET(game->solution, x, y) == MINE) {
+    ++game->flagged_mines;
+  }
+  ++game->flagged;
+}
+
+static inline void
+set_unflag(struct game* game, unsigned x, unsigned y)
+{
+  SET(game->current, x, y, COVERED);
+  if (GET(game->solution, x, y) == MINE) {
+    --game->flagged_mines;
+  }
+  --game->flagged;
+}
+
+enum ret
 mock_game_play(struct game* game, enum action action, const struct coord* cell)
 {
-  if (cell->x >= game->current->width || cell->y >= game->current->height) {
-    return false;
-  }
+  ++game->turn;
 
   switch (action) {
     case SET_EMPTY:
-      return set_empty(game->solution, game->current, cell->x, cell->y);
-    default:
+      if (set_empty(game->solution, game->current, cell->x, cell->y) == false) {
+        return LOST;
+      }
       break;
+    case FLAG:
+      set_flag(game, cell->x, cell->y);
+      break;
+    case UNFLAG:
+      set_unflag(game, cell->x, cell->y);
+      break;
+    default:
+      return LOST;
   };
 
-  return true;
+  if (game->mines == game->flagged_mines || game->mines == game->covered) {
+    return WON;
+  }
+
+  return OK;
 }

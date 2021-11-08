@@ -36,15 +36,20 @@ mock_game_destroy(game_t* game);
 void
 mock_game_dump(game_t* game);
 
-/**
- * List of the different actions can be done
- * for a play.
- */
+/** List of the different actions can be done for a play. */
 enum action
 {
   FLAG,
   UNFLAG,
   SET_EMPTY,
+};
+
+/** List of the different results after a play. */
+enum ret
+{
+  LOST,
+  WON,
+  OK,
 };
 
 /**
@@ -54,7 +59,7 @@ enum action
  * @param Action to be done.
  * @param coord Cell on the action has to be done.
  */
-bool
+enum ret
 mock_game_play(game_t* game, enum action action, const struct coord* cell);
 
 #endif /* !__GAME_H__ */
