@@ -9,10 +9,8 @@
 #include "test_solver.h"
 
 const static struct test solver_tests[] = {
-  /* find_unsolved */
   TEST(find_unsolved, simple),
   TEST(find_unsolved, not_found),
-  /* solver */
   TEST(solver, simple),
 };
 

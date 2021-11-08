@@ -18,7 +18,7 @@ mock_init_solution(struct grid* solution, unsigned mines)
   for (unsigned m = 0; m < mines; ++m) {
     unsigned r = rand() % cells.nr;
     struct cell* cell = list_cell_get_nth_cell(&cells, r);
-    SET(solution, cell->coord.x, cell->coord.y, FLAGGED);
+    SET(solution, cell->coord.x, cell->coord.y, MINE);
     list_cell_remove_cell(&cells, cell);
   }
 
@@ -59,4 +59,18 @@ mock_game_destroy(struct game* game)
   minesweeper_grid_destroy(game->solution);
   minesweeper_grid_destroy(game->current);
   free(game);
+}
+
+bool
+mock_game_play(struct game* game, enum action action, unsigned x, unsigned y)
+{
+  if (x >= game->current->width || y >= game->current->height) {
+    return false;
+  }
+
+  if (action == SET_EMPTY && GET(game->solution, x, y) == MINE) {
+    return false;
+  }
+
+  return true;
 }

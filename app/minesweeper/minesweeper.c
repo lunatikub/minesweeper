@@ -6,6 +6,8 @@ int main(void)
 
   mock_game_dump(game);
 
+  mock_game_play(game, FLAG, 1, 1);
+
   mock_game_destroy(game);
   return 0;
 }

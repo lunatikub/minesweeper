@@ -69,8 +69,22 @@ run_test_suite(const struct test_suite* ts);
     sizeof(name##_tests) / sizeof(struct test),                                \
     name##_tests,                                                              \
   };                                                                           \
-                                                                               \
-  int main(void) { return run_test_suite(&name##_test_suite) ? 0 : -1; }
+  int main(int argc, char** argv)                                              \
+  {                                                                            \
+    if (argc == 2) {                                                           \
+      char* name = NULL;                                                       \
+      name = argv[1];                                                          \
+      const struct test* t = find_test(&name##_test_suite, name);              \
+      if (t == NULL) {                                                         \
+        fprintf(stderr, "Test `%s` not found...", name);                       \
+        return -1;                                                             \
+      }                                                                        \
+      return run_test(t) ? 0 : -1;                                             \
+    }                                                                          \
+    return run_test_suite(&name##_test_suite) ? 0 : -1;                        \
+  }
+/*                                                                       \ */
+/* int main(void) { return run_test_suite(&name##_test_suite) ? 0 : -1; } */
 
 /********************************************************
  * Following macro are helpers to be used in the tests. *
