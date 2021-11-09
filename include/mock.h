@@ -36,6 +36,14 @@ mock_game_destroy(game_t* game);
 void
 mock_game_dump(game_t* game);
 
+/**
+ * Dump the solution grid.
+ *
+ * @param game Handle of a game.
+ */
+void
+mock_game_dump_solution(struct game* game);
+
 /** List of the different actions can be done for a play. */
 enum action
 {

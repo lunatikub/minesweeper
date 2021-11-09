@@ -38,7 +38,10 @@ mock_init_current(struct grid* current)
 struct game*
 mock_game_new(unsigned width, unsigned height, unsigned mines)
 {
-  assert(width * height > mines - 1); /* too much mines for the dims */
+  /* too much mines for the dims */
+  if (mines != 0 && mines > width * height) {
+    return NULL;
+  }
   struct game* game = calloc(1, sizeof(*game));
 
   game->mines = mines;
@@ -49,6 +52,7 @@ mock_game_new(unsigned width, unsigned height, unsigned mines)
   mock_init_solution(game->solution, mines);
   minesweeper_set_adjacent(game->solution, game->solution);
   mock_init_current(game->current);
+  game->covered = width * height;
 
   return game;
 }
@@ -62,38 +66,34 @@ mock_game_destroy(struct game* game)
 }
 
 static inline void
-set_empty_dfs(const struct grid* solution,
-              struct grid* current,
-              unsigned x,
-              unsigned y)
+set_empty_dfs(struct game* game, unsigned x, unsigned y)
 {
-  unsigned v = GET(solution, x, y);
+  --game->covered;
+
+  unsigned v = GET(game->solution, x, y);
   if (v >= 1 && v <= 8) {
-    SET(current, x, y, v);
+    SET(game->current, x, y, v);
     return;
   }
-
-  SET(current, x, y, EMPTY);
+  SET(game->current, x, y, EMPTY);
 
   /* clang-format off */
   FOREACH_NEIGHBORS(
-    solution, x, y,
-    if (GET(current, neighbor.x, neighbor.y) == COVERED) {
-      set_empty_dfs(solution, current, neighbor.x, neighbor.y);
+    game->solution, x, y,
+    if (GET(game->current, neighbor.x, neighbor.y) == COVERED &&
+        GET(game->solution, neighbor.x, neighbor.y) != MINE) {
+      set_empty_dfs(game, neighbor.x, neighbor.y);
     });
   /* clang-format on */
 }
 
 static inline bool
-set_empty(const struct grid* solution,
-          struct grid* current,
-          unsigned x,
-          unsigned y)
+set_empty(struct game* game, unsigned x, unsigned y)
 {
-  if (GET(solution, x, y) == MINE) {
+  if (GET(game->solution, x, y) == MINE) {
     return false;
   }
-  set_empty_dfs(solution, current, x, y);
+  set_empty_dfs(game, x, y);
   return true;
 }
 
@@ -124,7 +124,7 @@ mock_game_play(struct game* game, enum action action, const struct coord* cell)
 
   switch (action) {
     case SET_EMPTY:
-      if (set_empty(game->solution, game->current, cell->x, cell->y) == false) {
+      if (set_empty(game, cell->x, cell->y) == false) {
         return LOST;
       }
       break;

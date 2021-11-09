@@ -16,6 +16,8 @@ const static struct test mock_tests[] = {
   TEST(game, lost),
   TEST(game, set_empty),
   TEST(game, flag_unflag),
+  TEST(game, win_flagged),
+  TEST(game, win_covered),
 };
 /* clang-format on */
 
