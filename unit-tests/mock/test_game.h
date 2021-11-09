@@ -61,3 +61,35 @@ TEST_F(game, flag_unflag)
   return true;
 #undef EXPECTED_FLAGS
 }
+
+TEST_F(game, win_flagged)
+{
+  CFG(3, 3, 1);
+  struct game* game = mock_game_new(w, h, m);
+  EXPECT_UINT_EQ(game->covered, 9);
+
+  struct coord mine;
+  EXPECT_TRUE(find_first_mine(game->solution, &mine));
+
+  EXPECT_UINT_EQ(mock_game_play(game, FLAG, &mine), WON);
+
+  mock_game_destroy(game);
+  return true;
+}
+
+TEST_F(game, win_covered)
+{
+  CFG(3, 3, 0);
+  struct game* game = mock_game_new(w, h, m);
+  SET(game->solution, 1, 2, M);
+  SET(game->solution, 2, 2, M);
+  game->mines = 2;
+  game->covered = 9;
+
+  struct coord not_mine = { 0, 0 };
+  EXPECT_UINT_EQ(mock_game_play(game, SET_EMPTY, &not_mine), WON);
+  EXPECT_UINT_EQ(game->covered, 2);
+
+  mock_game_destroy(game);
+  return true;
+}

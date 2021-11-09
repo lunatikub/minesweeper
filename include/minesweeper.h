@@ -1,8 +1,6 @@
 #ifndef __MINESWEEPER_H__
 #define __MINESWEEPER_H__
 
-#include <assert.h>
-
 /* 0 to 8 are used for uncovered cell */
 enum
 {
@@ -30,15 +28,6 @@ struct grid
 
 /* Set the value of a cell from the coordinates */
 #define SET(G, X, Y, V) GET(G, X, Y) = (V)
-
-/**
- * Assert if the both grids have not the same dimensions.
- */
-#define ASSERT_DIM_NOT_EQ(G1, G2)                                              \
-  do {                                                                         \
-    assert(G1->width == G2->width);                                            \
-    assert(G1->height == G2->height);                                          \
-  } while (0)
 
 /**
  * Coordinates of a cell in the grid.

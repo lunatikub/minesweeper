@@ -25,8 +25,6 @@ minesweeper_grid_destroy(struct grid* grid)
 void
 minesweeper_set_adjacent(const struct grid* grid, struct grid* adjacent)
 {
-  ASSERT_DIM_NOT_EQ(grid, adjacent);
-
   for (unsigned y = 0; y < grid->height; ++y) {
     for (unsigned x = 0; x < grid->width; ++x) {
       if (GET(grid, x, y) != FLAGGED) {

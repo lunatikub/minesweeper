@@ -7,8 +7,11 @@
 static inline void
 dump_meta(struct game* game)
 {
-  printf(
-    ">> [%u] mines: %u, flagged: %u\n", game->turn, game->mines, game->flagged);
+  printf(">> [%u] mines: %u, flagged: %u, covered: %u\n",
+         game->turn,
+         game->mines,
+         game->flagged,
+         game->covered);
 }
 
 static inline void
@@ -57,4 +60,14 @@ mock_game_dump(struct game* game)
   dump_meta(game);
   dump_x_coord(game->current->width);
   dump_current(game->current);
+  printf("\n");
+}
+
+void
+mock_game_dump_solution(struct game* game)
+{
+  printf("-------------- solution --------------\n");
+  dump_x_coord(game->current->width);
+  dump_current(game->solution);
+  printf("\n");
 }
