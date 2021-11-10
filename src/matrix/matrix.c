@@ -7,14 +7,14 @@ struct matrix
 {
   unsigned m; /* rows */
   unsigned n; /* colums */
-  int** e;    /* elements */
+  float** e;    /* elements */
 };
 
 /** Set the elements of the matrix A with
     the elements given in argument. */
 PRIVATE_EXCEPT_UNIT_TEST
 void
-matrix_set(struct matrix* A, const int* e)
+matrix_set(struct matrix* A, const float* e)
 {
   for (unsigned i = 0; i < A->m; ++i) {
     for (unsigned j = 0; j < A->n; ++j) {
@@ -55,6 +55,15 @@ swap_row(struct matrix* A, unsigned i, unsigned j)
   }
 }
 
+PRIVATE_EXCEPT_UNIT_TEST
+void
+mult_row(struct matrix *A, unsigned i, float lambda)
+{
+  for (unsigned k = 0; k < A->n; ++k) {
+    A->e[i][k] *= lambda;
+  }
+}
+
 struct matrix*
 matrix_new(unsigned m, unsigned n)
 {
@@ -62,9 +71,9 @@ matrix_new(unsigned m, unsigned n)
 
   A->m = m;
   A->n = n;
-  A->e = calloc(m, sizeof(int*));
+  A->e = calloc(m, sizeof(float*));
   for (unsigned i = 0; i < m; ++i) {
-    A->e[i] = calloc(n, sizeof(int));
+    A->e[i] = calloc(n, sizeof(float));
   }
 
   return A;
