@@ -10,6 +10,10 @@ MODULE=$1
 mkdir -p $ROOT_DIR/src/$MODULE
 mkdir -p $ROOT_DIR/unit-tests/$MODULE
 
+###
+### unit-tests/module/meson.build
+###
+
 cat << EOF > $ROOT_DIR/unit-tests/$MODULE/meson.build
 test_name='test-${MODULE}'
 
@@ -34,6 +38,10 @@ test_${MODULE} = executable(
 test(test_name, test_${MODULE})
 EOF
 
+###
+### unit-tests/module/test_<module>.c
+###
+
 cat << EOF > $ROOT_DIR/unit-tests/${MODULE}/test_${MODULE}.c
 #include "common.h"
 #include "${MODULE}_unit-test.h"
@@ -52,16 +60,33 @@ const static struct test ${MODULE}_tests[] = {
 TEST_SUITE(${MODULE});
 EOF
 
+###
+### src/<module>/meson.build
+###
+
 cat << EOF > $ROOT_DIR/src/${MODULE}/meson.build
 ${MODULE}_src = files(
+  '${MODULE}.c',
 )
 
 ${MODULE}_inc = include_directories('.')
 EOF
 
+###
+### src/<module>/module.c
+###
+
+cat << EOF > $ROOT_DIR/src/${MODULE}/${MODULE}.c
+#include <${MODULE}.h>
+EOF
+
+###
+### src/<module>/<module>_unit-test.h
+###
+
 cat << EOF > $ROOT_DIR/src/${MODULE}/${MODULE}_unit-test.h
-#ifndef __${MODULE}_UNIT_TEST_H__
-#define __${MODULE}_UNIT_TEST_H__
+#ifndef __${MODULE^^}_UNIT_TEST_H__
+#define __${MODULE^^}_UNIT_TEST_H__
 
 #include <unit-test.h>
 
@@ -73,7 +98,18 @@ cat << EOF > $ROOT_DIR/src/${MODULE}/${MODULE}_unit-test.h
 // PROTOTYPE_FOR_UNIT_TEST(proto_1);
 // PROTOTYPE_FOR_UNIT_TEST(proto_2);
 
-#endif /* !__${MODULE}_UNIT_TEST_H__ */
+#endif /* !__${MODULE^^}_UNIT_TEST_H__ */
+EOF
+
+###
+### include/<module>.h
+###
+
+cat << EOF > $ROOT_DIR/include/${MODULE}.h
+#ifndef __${MODULE^^}_H__
+#define __${MODULE^^}_H__
+
+#endif /* !__${MODULE^^}_H__ */
 EOF
 
 exit 0

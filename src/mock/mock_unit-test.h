@@ -1,5 +1,5 @@
-#ifndef __mock_UNIT_TEST_H__
-#define __mock_UNIT_TEST_H__
+#ifndef __MOCK_UNIT_TEST_H__
+#define __MOCK_UNIT_TEST_H__
 
 #include <unit-test.h>
 
@@ -8,4 +8,4 @@
  * of this mock module.
  */
 
-#endif /* !__mock_UNIT_TEST_H__ */
+#endif /* !__MOCK_UNIT_TEST_H__ */
