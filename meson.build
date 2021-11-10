@@ -41,6 +41,7 @@ unit_test_inc = include_directories('unit-tests')
 
 modules = [
   'minesweeper',
+  'matrix',
   'solver',
   'mock',
 ]
