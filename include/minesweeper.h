@@ -36,7 +36,6 @@ struct coord
 {
   unsigned x;
   unsigned y;
-  ;
 };
 
 /**

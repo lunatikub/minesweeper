@@ -1,6 +1,8 @@
 #ifndef __MATRIX_UNIT_TEST_H__
 #define __MATRIX_UNIT_TEST_H__
 
+#include <matrix.h>
+#include <stdbool.h>
 #include <unit-test.h>
 
 /**
@@ -8,7 +10,11 @@
  * of this matrix module.
  */
 
-// PROTOTYPE_FOR_UNIT_TEST(proto_1);
-// PROTOTYPE_FOR_UNIT_TEST(proto_2);
+PROTOTYPE_FOR_UNIT_TEST(void swap_row(matrix_t* A, unsigned i, unsigned j));
+
+PROTOTYPE_FOR_UNIT_TEST(void matrix_set(struct matrix* A, const int* e));
+
+PROTOTYPE_FOR_UNIT_TEST(bool matrix_eq(const struct matrix* A,
+                                       const struct matrix* B));
 
 #endif /* !__MATRIX_UNIT_TEST_H__ */
