@@ -7,7 +7,7 @@ struct matrix
 {
   unsigned m; /* rows */
   unsigned n; /* colums */
-  float** e;    /* elements */
+  float** e;  /* elements */
 };
 
 /** Set the elements of the matrix A with
@@ -55,12 +55,24 @@ swap_row(struct matrix* A, unsigned i, unsigned j)
   }
 }
 
+/** Multiply a row by a constant. */
 PRIVATE_EXCEPT_UNIT_TEST
 void
-mult_row(struct matrix *A, unsigned i, float lambda)
+mult_row(struct matrix* A, unsigned i, float lambda)
 {
   for (unsigned k = 0; k < A->n; ++k) {
     A->e[i][k] *= lambda;
+  }
+}
+
+/** Add to a row the product of another row
+    multiply by a constant. */
+PRIVATE_EXCEPT_UNIT_TEST
+void
+add_row(struct matrix* A, unsigned i, unsigned j, float lambda)
+{
+  for (unsigned k = 0; k < A->n; ++k) {
+    A->e[i][k] += lambda * A->e[j][k];
   }
 }
 
