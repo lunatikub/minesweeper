@@ -3,23 +3,17 @@
 
 TEST_F(add_row, 2x3)
 {
-  matrix_t* A = matrix_new(2, 3);
-  matrix_t* B = matrix_new(2, 3);
-
-  const static float elts[] = {
-    1, 2, 3, 3, 4, 5,
+  /* clang-format off */
+  const static long double elts[] = {
+    1, 2, 3,
+    3, 4, 5,
   };
-  const static float expected[] = {
-    1, 2, 3, 5, 8, 11,
+  const static long double expected[] = {
+    1, 2, 3,
+    5, 8, 11,
   };
+  /* clang-format on */
 
-  matrix_set(A, elts);
-  matrix_set(B, expected);
-
-  add_row(A, 1, 0, 2);
-  EXPECT_TRUE(matrix_eq(A, B));
-
-  matrix_destroy(A);
-  matrix_destroy(B);
+  TEST_MATRIX(2, 3, elts, expected, add_row(A, 1, 0, 2));
   return true;
 }

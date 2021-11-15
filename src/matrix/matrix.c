@@ -5,16 +5,16 @@
 
 struct matrix
 {
-  unsigned m; /* rows */
-  unsigned n; /* colums */
-  float** e;  /* elements */
+  unsigned m;      /* rows */
+  unsigned n;      /* columns */
+  long double** e; /* elements */
 };
 
 /** Set the elements of the matrix A with
     the elements given in argument. */
 PRIVATE_EXCEPT_UNIT_TEST
 void
-matrix_set(struct matrix* A, const float* e)
+matrix_set(struct matrix* A, const long double* e)
 {
   for (unsigned i = 0; i < A->m; ++i) {
     for (unsigned j = 0; j < A->n; ++j) {
@@ -58,7 +58,7 @@ swap_row(struct matrix* A, unsigned i, unsigned j)
 /** Multiply a row by a constant. */
 PRIVATE_EXCEPT_UNIT_TEST
 void
-mult_row(struct matrix* A, unsigned i, float lambda)
+mult_row(struct matrix* A, unsigned i, long double lambda)
 {
   for (unsigned k = 0; k < A->n; ++k) {
     A->e[i][k] *= lambda;
@@ -69,10 +69,50 @@ mult_row(struct matrix* A, unsigned i, float lambda)
     multiply by a constant. */
 PRIVATE_EXCEPT_UNIT_TEST
 void
-add_row(struct matrix* A, unsigned i, unsigned j, float lambda)
+add_row(struct matrix* A, unsigned i, unsigned j, long double lambda)
 {
   for (unsigned k = 0; k < A->n; ++k) {
     A->e[i][k] += lambda * A->e[j][k];
+  }
+}
+
+/** Return the index of the first pivot not null found
+    in the column j from row i to m-1, otherwise return -1. */
+static inline int
+pivot(struct matrix* A, unsigned i, unsigned j)
+{
+  unsigned k = i;
+  while (k < A->m && A->e[k][j] == 0) {
+    ++k;
+  }
+  return k == A->m ? -1 : k;
+}
+
+void
+matrix_gauss_jordan(struct matrix* A)
+{
+  unsigned i = 0;
+  unsigned j = 0;
+
+  while (i < A->m && j < A->n) {
+    int r = pivot(A, i, j);
+    if (r != -1) {
+      if (r != i) {
+        swap_row(A, i, r);
+      }
+      if (A->e[i][j] != 1) {
+        mult_row(A, i, 1 / A->e[i][j]);
+      }
+      for (unsigned k = 0; k < A->m; ++k) {
+        if (k != i && A->e[k][j] != 0) {
+          add_row(A, k, i, -A->e[k][j]);
+        }
+      }
+      ++i;
+      ++j;
+    } else {
+      ++j;
+    }
   }
 }
 
@@ -83,9 +123,9 @@ matrix_new(unsigned m, unsigned n)
 
   A->m = m;
   A->n = n;
-  A->e = calloc(m, sizeof(float*));
+  A->e = calloc(m, sizeof(long double*));
   for (unsigned i = 0; i < m; ++i) {
-    A->e[i] = calloc(n, sizeof(float));
+    A->e[i] = calloc(n, sizeof(long double));
   }
 
   return A;

@@ -3,49 +3,37 @@
 
 TEST_F(swap_row, 3x3)
 {
-  matrix_t* A = matrix_new(3, 3);
-  matrix_t* B = matrix_new(3, 3);
-
-  const static float elts[] = {
-    1, 2, 3, 4, 5, 6, 7, 8, 9,
+  /* clang-format off */
+  const static long double elts[] = {
+    1, 2, 3,
+    4, 5, 6,
+    7, 8, 9,
   };
-  const static float expected[] = {
-    7, 8, 9, 4, 5, 6, 1, 2, 3,
+  const static long double expected[] = {
+    7, 8, 9,
+    4, 5, 6,
+    1, 2, 3,
   };
+  /* clang-format on */
 
-  matrix_set(A, elts);
-  matrix_set(B, expected);
-
-  swap_row(A, 0, 2);
-
-  EXPECT_TRUE(matrix_eq(A, B));
-
-  matrix_destroy(A);
-  matrix_destroy(B);
+  TEST_MATRIX(3, 3, elts, expected, swap_row(A, 0, 2));
   return true;
 }
 
 TEST_F(swap_row, 2x3)
 {
-  matrix_t* A = matrix_new(2, 3);
-  matrix_t* B = matrix_new(2, 3);
-
-  const static float elts[] = {
-    1, 2, 3, 4, 5, 6,
+  /* clang-format off */
+  const static long double elts[] = {
+    1, 2, 3,
+    4, 5, 6,
   };
 
-  const static float expected[] = {
-    4, 5, 6, 1, 2, 3,
+  const static long double expected[] = {
+    4, 5, 6,
+    1, 2, 3,
   };
+  /* clang-format on */
 
-  matrix_set(A, elts);
-  matrix_set(B, expected);
-
-  swap_row(A, 0, 1);
-
-  EXPECT_TRUE(matrix_eq(A, B));
-
-  matrix_destroy(A);
-  matrix_destroy(B);
+  TEST_MATRIX(2, 3, elts, expected, swap_row(A, 0, 1));
   return true;
 }

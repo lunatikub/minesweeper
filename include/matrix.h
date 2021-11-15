@@ -17,9 +17,18 @@ matrix_new(unsigned m, unsigned n);
 /**
  * Destroy a matrix previously allocated by @c matrix_new.
  *
- * @param grid Matrix handle.
+ * @param A Matrix handle.
  */
 void
 matrix_destroy(struct matrix* A);
+
+/**
+ * GaussJordan process in place the reduced
+ * row echelon form of a matrix.
+ *
+ * @param A matrix handle.
+ */
+void
+matrix_gauss_jordan(struct matrix* A);
 
 #endif /* !__MATRIX_H__ */
