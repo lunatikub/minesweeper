@@ -9,7 +9,6 @@ TEST_F(swap_row, 3x3)
   const static float elts[] = {
     1, 2, 3, 4, 5, 6, 7, 8, 9,
   };
-
   const static float expected[] = {
     7, 8, 9, 4, 5, 6, 1, 2, 3,
   };
