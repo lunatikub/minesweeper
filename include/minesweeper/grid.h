@@ -1,14 +1,5 @@
-#ifndef __MINESWEEPER_H__
-#define __MINESWEEPER_H__
-
-/* 0 to 8 are used for uncovered cell */
-enum
-{
-  EMPTY = 0,
-  COVERED = 9,
-  FLAGGED = 10,
-  MINE = FLAGGED,
-};
+#ifndef __GRID_H__
+#define __GRID_H__
 
 /**
  * In the game, the mines are scattered throughout a grid.
@@ -28,15 +19,6 @@ struct grid
 
 /* Set the value of a cell from the coordinates */
 #define SET(G, X, Y, V) GET(G, X, Y) = (V)
-
-/**
- * Coordinates of a cell in the grid.
- */
-struct coord
-{
-  unsigned x;
-  unsigned y;
-};
 
 /**
  * Create a new grid of size specified in parameters.
@@ -66,4 +48,4 @@ minesweeper_grid_destroy(struct grid* grid);
 void
 minesweeper_set_adjacent(const struct grid* grid, struct grid* adjacent);
 
-#endif /* !__MINESWEEPER_H__ */
+#endif /* !__GRID_H__ */

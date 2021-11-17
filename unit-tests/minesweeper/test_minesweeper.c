@@ -1,7 +1,8 @@
+#include <minesweeper/minesweeper.h>
+
 #include "common.h"
 #include "minesweeper_unit-test.h"
 #include "utest.h"
-#include <minesweeper.h>
 
 /** List of sub-section tests **/
 #include "test_adjacent.h"

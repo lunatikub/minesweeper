@@ -3,7 +3,7 @@
 
 #include <sys/queue.h>
 
-#include <minesweeper.h>
+#include <minesweeper/minesweeper.h>
 
 /**
  * List of cells.

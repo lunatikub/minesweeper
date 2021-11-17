@@ -1,7 +1,7 @@
 #ifndef __CONFIGURATION_H__
 #define __CONFIGURATION_H__
 
-#include <minesweeper.h>
+#include <minesweeper/grid.h>
 
 struct configuration
 {

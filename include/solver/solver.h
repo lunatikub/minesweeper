@@ -1,8 +1,9 @@
 #ifndef __SOLVER_H__
 #define __SOLVER_H__
 
-#include <minesweeper.h>
 #include <sys/queue.h>
+
+#include <minesweeper/grid.h>
 
 /**
  * List of mines and empty cells for a static grid.

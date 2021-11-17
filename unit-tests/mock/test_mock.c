@@ -1,9 +1,10 @@
+#include <minesweeper/list_cell.h>
+#include <mock/mock.h>
+
 #include "common.h"
 #include "game.h"
-#include "list_cell.h"
 #include "mock_unit-test.h"
 #include "utest.h"
-#include <mock.h>
 
 /** List of sub-section tests **/
 #include "test_game.h"

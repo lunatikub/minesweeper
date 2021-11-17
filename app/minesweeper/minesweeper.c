@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include <mock.h>
+#include <mock/mock.h>
 
 static inline void game_inputs(struct coord *to_play, enum action *action)
 {

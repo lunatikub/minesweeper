@@ -1,8 +1,9 @@
+#include <solver/solver.h>
+
 #include "common.h"
 #include "configuration.h"
 #include "solver_unit-test.h"
 #include "utest.h"
-#include <solver.h>
 
 /** List of sub-section tests **/
 #include "test_find_unsolved.h"

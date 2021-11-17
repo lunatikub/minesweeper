@@ -1,7 +1,8 @@
 #include <stdlib.h>
 
+#include <matrix/matrix.h>
+
 #include "matrix_unit-test.h"
-#include <matrix.h>
 
 struct matrix
 {

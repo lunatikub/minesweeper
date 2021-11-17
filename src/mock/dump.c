@@ -1,8 +1,9 @@
 #include <stdio.h>
 
+#include <minesweeper/grid.h>
+#include <mock/mock.h>
+
 #include "game.h"
-#include <minesweeper.h>
-#include <mock.h>
 
 static inline void
 dump_meta(struct game* game)

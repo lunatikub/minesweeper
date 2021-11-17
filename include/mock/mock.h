@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 
-#include <minesweeper.h>
+#include <minesweeper/minesweeper.h>
 
 /** Opaque structure of a minesweeper game */
 typedef struct game game_t;

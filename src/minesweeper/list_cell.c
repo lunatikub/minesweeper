@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "list_cell.h"
+#include <minesweeper/list_cell.h>
 
 static inline struct cell*
 cell_new(unsigned x, unsigned y)
