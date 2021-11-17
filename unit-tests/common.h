@@ -4,7 +4,8 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#include <minesweeper.h>
+#include <minesweeper/grid.h>
+#include <minesweeper/minesweeper.h>
 
 #define M MINE
 #define C COVERED

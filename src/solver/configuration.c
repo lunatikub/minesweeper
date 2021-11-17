@@ -1,10 +1,11 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+#include <minesweeper/neighbors.h>
+#include <solver/solver.h>
+
 #include "configuration.h"
 #include "solver_unit-test.h"
-#include <neighbors.h>
-#include <solver.h>
 
 /**
  * An unsolved cell:

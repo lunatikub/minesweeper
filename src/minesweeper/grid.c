@@ -1,7 +1,7 @@
 #include <stdlib.h>
 
-#include <minesweeper.h>
-#include <neighbors.h>
+#include <minesweeper/grid.h>
+#include <minesweeper/neighbors.h>
 
 struct grid*
 minesweeper_grid_new(unsigned width, unsigned height)

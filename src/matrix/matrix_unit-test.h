@@ -1,8 +1,9 @@
 #ifndef __MATRIX_UNIT_TEST_H__
 #define __MATRIX_UNIT_TEST_H__
 
-#include <matrix.h>
 #include <stdbool.h>
+
+#include <matrix/matrix.h>
 #include <unit-test.h>
 
 /**

@@ -1,11 +1,12 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include <minesweeper/grid.h>
+#include <minesweeper/list_cell.h>
+#include <minesweeper/neighbors.h>
+#include <mock/mock.h>
+
 #include "game.h"
-#include "list_cell.h"
-#include <minesweeper.h>
-#include <mock.h>
-#include <neighbors.h>
 
 static inline void
 mock_init_solution(struct grid* solution, unsigned mines)

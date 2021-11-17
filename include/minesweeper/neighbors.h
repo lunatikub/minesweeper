@@ -1,7 +1,7 @@
 #ifndef __NEIGHBORS_H__
 #define __NEIGHBORS_H__
 
-#include <solver.h>
+#include <minesweeper/minesweeper.h>
 
 /**
  * Relative coordinate of neighbors.

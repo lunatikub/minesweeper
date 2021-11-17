@@ -1,8 +1,9 @@
+#include <matrix/matrix.h>
+
 #include "common.h"
 #include "matrix_unit-test.h"
 #include "test_matrix_common.h"
 #include "utest.h"
-#include <matrix.h>
 
 /** List of sub-section tests **/
 #include "test_add_row.h"

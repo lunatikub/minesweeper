@@ -1,5 +1,4 @@
 mock_src = files(
-  'list_cell.c',
   'dump.c',
   'mock.c',
 )

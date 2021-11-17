@@ -1,9 +1,10 @@
 #include <stdlib.h>
 
+#include <minesweeper/grid.h>
+#include <minesweeper/neighbors.h>
+#include <solver/solver.h>
+
 #include "solver_unit-test.h"
-#include <minesweeper.h>
-#include <neighbors.h>
-#include <solver.h>
 
 struct solution*
 minesweeper_solve(struct grid* grid)
