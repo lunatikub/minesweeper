@@ -9,6 +9,7 @@
 
 #define M MINE
 #define C COVERED
+#define F FLAGGED
 
 static inline void
 grid_dump(const struct grid* grid)
