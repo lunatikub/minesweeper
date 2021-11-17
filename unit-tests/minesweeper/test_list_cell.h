@@ -50,3 +50,19 @@ TEST_F(list_cell, unbound)
   list_cell_destroy(cells);
   return true;
 }
+
+TEST_F(list_cell, exist)
+{
+  list_cell_t* cells = list_cell_create();
+
+  list_cell_add_head(cells, 42, 42);
+  list_cell_add_head(cells, 41, 41);
+
+  EXPECT_TRUE(list_cell_exist(cells, 42, 42));
+  EXPECT_TRUE(list_cell_exist(cells, 41, 41));
+  EXPECT_FALSE(list_cell_exist(cells, 42, 41));
+  EXPECT_FALSE(list_cell_exist(cells, 41, 42));
+
+  list_cell_destroy(cells);
+  return true;
+}
