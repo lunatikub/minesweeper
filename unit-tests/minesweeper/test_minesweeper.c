@@ -12,6 +12,7 @@
 const static struct test minesweeper_tests[] = {
   TEST(list_cell, simple),
   TEST(list_cell, unbound),
+  TEST(list_cell, exist),
   TEST(adjacent, simple),
   TEST(adjacent, advanced),
 };

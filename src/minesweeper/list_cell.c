@@ -89,3 +89,16 @@ list_cell_get_coord(struct cell* cell)
 {
   return cell->coord;
 }
+
+bool
+list_cell_exist(struct list_cell* cells, unsigned x, unsigned y)
+{
+  struct cell* cell;
+  LIST_FOREACH(cell, &cells->head, next)
+  {
+    if (cell->coord.x == x && cell->coord.y == y) {
+      return true;
+    }
+  }
+  return false;
+}
