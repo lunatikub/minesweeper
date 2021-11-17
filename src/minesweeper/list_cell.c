@@ -12,18 +12,10 @@ cell_new(unsigned x, unsigned y)
 }
 
 void
-list_cell_create(struct list_cell* cells, unsigned width, unsigned height)
+list_cell_init(struct list_cell* cells)
 {
   LIST_INIT(&cells->head);
   cells->nr = 0;
-
-  for (unsigned y = 0; y < height; ++y) {
-    for (unsigned x = 0; x < width; ++x) {
-      struct cell* cell = cell_new(x, y);
-      LIST_INSERT_HEAD(&cells->head, cell, next);
-      ++cells->nr;
-    }
-  }
 }
 
 void
@@ -35,6 +27,14 @@ list_cell_destroy(struct list_cell* cells)
     LIST_REMOVE(cell, next);
     free(cell);
   }
+}
+
+void
+list_cell_add_head(struct list_cell* cells, unsigned x, unsigned y)
+{
+  struct cell* cell = cell_new(x, y);
+  LIST_INSERT_HEAD(&cells->head, cell, next);
+  ++cells->nr;
 }
 
 struct cell*
