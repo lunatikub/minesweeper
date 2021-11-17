@@ -13,22 +13,22 @@ mock_init_solution(struct grid* solution, unsigned mines)
 {
   srand(time(NULL));
 
-  struct list_cell cells;
-  list_cell_init(&cells);
+  list_cell_t* cells = list_cell_create();
   for (unsigned y = 0; y < solution->height; ++y) {
     for (unsigned x = 0; x < solution->width; ++x) {
-      list_cell_add_head(&cells, x, y);
+      list_cell_add_head(cells, x, y);
     }
   }
 
   for (unsigned m = 0; m < mines; ++m) {
-    unsigned r = rand() % cells.nr;
-    struct cell* cell = list_cell_get_nth_cell(&cells, r);
-    SET(solution, cell->coord.x, cell->coord.y, MINE);
-    list_cell_remove_cell(&cells, cell);
+    unsigned r = rand() % list_cell_get_nr(cells);
+    cell_t* cell = list_cell_get_nth(cells, r);
+    struct coord coord = list_cell_get_coord(cell);
+    SET(solution, coord.x, coord.y, MINE);
+    list_cell_remove(cells, cell);
   }
 
-  list_cell_destroy(&cells);
+  list_cell_destroy(cells);
 }
 
 static inline void
