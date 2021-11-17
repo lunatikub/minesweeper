@@ -1,4 +1,4 @@
-#include <minesweeper/minesweeper.h>
+#include <minesweeper/list_cell.h>
 
 #include "common.h"
 #include "minesweeper_unit-test.h"
@@ -6,9 +6,12 @@
 
 /** List of sub-section tests **/
 #include "test_adjacent.h"
+#include "test_list_cell.h"
 
 /* clang-format off */
 const static struct test minesweeper_tests[] = {
+  TEST(list_cell, simple),
+  TEST(list_cell, unbound),
   TEST(adjacent, simple),
   TEST(adjacent, advanced),
 };

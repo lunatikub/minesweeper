@@ -17,13 +17,13 @@
 #define BOLD "\e[1m"
 
 /* Declare a test. */
-#define TEST_F(section, name) static bool test_##section##name(void)
+#define TEST_F(section, name) static bool test_##section##_##name(void)
 
 /* clang-format off */
 /* Add a test to the test suite. */
 #define TEST(section, name)                                  \
   {                                                          \
-    #section, #name, test_ ## section ## name                \
+    #section, #name, test_ ## section ## _ ## name           \
   }
 /* clang-format on */
 

@@ -20,17 +20,22 @@ struct list_cell
 };
 
 /**
- * Create the entire list of cells from the dimensions.
+ * Init a list of cells.
  */
 void
-list_cell_create(struct list_cell* cells, unsigned width, unsigned height);
+list_cell_init(struct list_cell* cells);
 
 /**
- * Destroy the list of cells previously created
- * from @c mock_list_cell_create.
+ * Destroy all elements of a list of cells.
  */
 void
 list_cell_destroy(struct list_cell* cells);
+
+/**
+ * Add a cell to the list at head.
+ */
+void
+list_cell_add_head(struct list_cell* cells, unsigned x, unsigned y);
 
 /**
  * Get the nth cell of the list.
