@@ -5,48 +5,52 @@
 
 #include <minesweeper/minesweeper.h>
 
-/**
- * List of cells.
- */
-struct cell
-{
-  LIST_ENTRY(cell) next;
-  struct coord coord;
-};
-struct list_cell
-{
-  LIST_HEAD(, cell) head;
-  unsigned nr;
-};
+/** Opaque structure of a list of cells */
+typedef struct list_cell list_cell_t;
+
+/** Opaque structure of a cell */
+typedef struct cell cell_t;
 
 /**
- * Init a list of cells.
+ * Create a list of cells.
  */
-void
-list_cell_init(struct list_cell* cells);
+list_cell_t*
+list_cell_create(void);
 
 /**
- * Destroy all elements of a list of cells.
+ * Destroy a list of cells.
  */
 void
-list_cell_destroy(struct list_cell* cells);
+list_cell_destroy(list_cell_t* cells);
 
 /**
  * Add a cell to the list at head.
  */
 void
-list_cell_add_head(struct list_cell* cells, unsigned x, unsigned y);
+list_cell_add_head(list_cell_t* cells, unsigned x, unsigned y);
 
 /**
  * Get the nth cell of the list.
  */
 struct cell*
-list_cell_get_nth_cell(struct list_cell* cells, unsigned n);
+list_cell_get_nth(list_cell_t* cells, unsigned n);
 
 /**
  * Remove the cell given in argument.
  */
 void
-list_cell_remove_cell(struct list_cell* cells, struct cell* cell);
+list_cell_remove(list_cell_t* cells, struct cell* cell);
+
+/**
+ * Get the number of cells in the list.
+ */
+unsigned
+list_cell_get_nr(list_cell_t* cells);
+
+/**
+ * Get the coordinate of a cell.
+ */
+struct coord
+list_cell_get_coord(struct cell* cell);
 
 #endif /* !__LIST_CELL_H__ */

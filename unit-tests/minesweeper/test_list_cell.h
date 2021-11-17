@@ -3,47 +3,50 @@
 
 TEST_F(list_cell, simple)
 {
-  struct list_cell cells;
-  struct cell* cell;
+  list_cell_t* cells = list_cell_create();
+  cell_t* cell;
+  struct coord coord;
 
-  list_cell_init(&cells);
-  {
-    EXPECT_UINT_EQ(cells.nr, 0);
+  EXPECT_UINT_EQ(list_cell_get_nr(cells), 0);
 
-    list_cell_add_head(&cells, 42, 42);
+  list_cell_add_head(cells, 42, 42);
 
-    cell = list_cell_get_nth_cell(&cells, 0);
-    EXPECT_UINT_EQ(cells.nr, 1);
-    EXPECT_UINT_EQ(cell->coord.x, 42);
-    EXPECT_UINT_EQ(cell->coord.y, 42);
+  cell = list_cell_get_nth(cells, 0);
+  coord = list_cell_get_coord(cell);
 
-    list_cell_add_head(&cells, 41, 41);
-    EXPECT_UINT_EQ(cells.nr, 2);
-    cell = list_cell_get_nth_cell(&cells, 1);
-    EXPECT_UINT_EQ(cell->coord.x, 42);
-    EXPECT_UINT_EQ(cell->coord.y, 42);
-    cell = list_cell_get_nth_cell(&cells, 0);
-    EXPECT_UINT_EQ(cell->coord.x, 41);
-    EXPECT_UINT_EQ(cell->coord.y, 41);
+  EXPECT_UINT_EQ(list_cell_get_nr(cells), 1);
 
-    list_cell_remove_cell(&cells, cell);
-    cell = list_cell_get_nth_cell(&cells, 0);
-    EXPECT_UINT_EQ(cells.nr, 1);
-    EXPECT_UINT_EQ(cell->coord.x, 42);
-    EXPECT_UINT_EQ(cell->coord.y, 42);
-  }
-  list_cell_destroy(&cells);
+  EXPECT_UINT_EQ(coord.x, 42);
+  EXPECT_UINT_EQ(coord.y, 42);
+
+  list_cell_add_head(cells, 41, 41);
+  EXPECT_UINT_EQ(list_cell_get_nr(cells), 2);
+
+  cell = list_cell_get_nth(cells, 1);
+  coord = list_cell_get_coord(cell);
+  EXPECT_UINT_EQ(coord.x, 42);
+  EXPECT_UINT_EQ(coord.y, 42);
+
+  cell = list_cell_get_nth(cells, 0);
+  coord = list_cell_get_coord(cell);
+  EXPECT_UINT_EQ(coord.x, 41);
+  EXPECT_UINT_EQ(coord.y, 41);
+
+  list_cell_remove(cells, cell);
+  EXPECT_UINT_EQ(list_cell_get_nr(cells), 1);
+
+  coord = list_cell_get_coord(list_cell_get_nth(cells, 0));
+  EXPECT_UINT_EQ(coord.x, 42);
+  EXPECT_UINT_EQ(coord.y, 42);
+
+  list_cell_destroy(cells);
   return true;
 }
 
 TEST_F(list_cell, unbound)
 {
-  struct list_cell cells;
-
-  list_cell_init(&cells);
-  {
-    EXPECT_TRUE(list_cell_get_nth_cell(&cells, 1) == NULL);
-  }
-  list_cell_destroy(&cells);
+  list_cell_t* cells = list_cell_create();
+  EXPECT_TRUE(list_cell_get_nth(cells, 1) == NULL);
+  list_cell_destroy(cells);
   return true;
 }

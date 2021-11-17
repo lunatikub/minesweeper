@@ -2,6 +2,18 @@
 
 #include <minesweeper/list_cell.h>
 
+struct cell
+{
+  LIST_ENTRY(cell) next;
+  struct coord coord;
+};
+
+struct list_cell
+{
+  LIST_HEAD(, cell) head;
+  unsigned nr;
+};
+
 static inline struct cell*
 cell_new(unsigned x, unsigned y)
 {
@@ -11,11 +23,13 @@ cell_new(unsigned x, unsigned y)
   return cell;
 }
 
-void
-list_cell_init(struct list_cell* cells)
+struct list_cell*
+list_cell_create(void)
 {
+  struct list_cell* cells = calloc(1, sizeof(*cells));
   LIST_INIT(&cells->head);
   cells->nr = 0;
+  return cells;
 }
 
 void
@@ -27,6 +41,7 @@ list_cell_destroy(struct list_cell* cells)
     LIST_REMOVE(cell, next);
     free(cell);
   }
+  free(cells);
 }
 
 void
@@ -38,7 +53,7 @@ list_cell_add_head(struct list_cell* cells, unsigned x, unsigned y)
 }
 
 struct cell*
-list_cell_get_nth_cell(struct list_cell* cells, unsigned n)
+list_cell_get_nth(struct list_cell* cells, unsigned n)
 {
   if (n >= cells->nr) {
     return NULL;
@@ -56,9 +71,21 @@ list_cell_get_nth_cell(struct list_cell* cells, unsigned n)
 }
 
 void
-list_cell_remove_cell(struct list_cell* cells, struct cell* cell)
+list_cell_remove(struct list_cell* cells, struct cell* cell)
 {
   LIST_REMOVE(cell, next);
   --cells->nr;
   free(cell);
+}
+
+unsigned
+list_cell_get_nr(list_cell_t* cells)
+{
+  return cells->nr;
+}
+
+struct coord
+list_cell_get_coord(struct cell* cell)
+{
+  return cell->coord;
 }
