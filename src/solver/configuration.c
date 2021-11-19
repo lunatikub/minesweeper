@@ -44,22 +44,21 @@ find_unsolved(const struct grid* grid, struct coord* unsolved)
 static void
 configuration_get_unsolved(const struct grid* grid,
                            struct configuration* cfg,
-                           unsigned x,
-                           unsigned y)
+                           struct coord unsolved_cell)
 {
-  if (is_solved(grid, x, y) == false) {
-    list_cell_add_head(cfg->unsolved, x, y);
+  if (is_solved(grid, unsolved_cell.x, unsolved_cell.y) == false) {
+    list_cell_add_head(cfg->unsolved, unsolved_cell);
   }
 
   /* clang-format off */
   /* for each neighbors not visited, not covered, not flagged, not empty:
      call recursively the function */
   FOREACH_NEIGHBORS(
-    grid, x, y,
+    grid, unsolved_cell.x, unsolved_cell.y,
     unsigned v = GET(grid, neighbor.x, neighbor.y);
     if (v >= 1 && v <= 8 &&
-        list_cell_exist(cfg->unsolved, neighbor.x, neighbor.y) == false) {
-      configuration_get_unsolved(grid, cfg, neighbor.x, neighbor.y);
+        list_cell_exist(cfg->unsolved, neighbor) == false) {
+      configuration_get_unsolved(grid, cfg, neighbor);
     });
   /* clang-format on */
 }
@@ -77,12 +76,12 @@ configuration_get(const struct grid* grid)
 {
   struct configuration* cfg = configuration_create();
 
-  struct coord unsolved;
-  if (find_unsolved(grid, &unsolved) == false) {
+  struct coord unsolved_cell;
+  if (find_unsolved(grid, &unsolved_cell) == false) {
     return NULL;
   }
 
-  configuration_get_unsolved(grid, cfg, unsolved.x, unsolved.y);
+  configuration_get_unsolved(grid, cfg, unsolved_cell);
 
   return cfg;
 }
