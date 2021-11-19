@@ -17,7 +17,7 @@ TEST_F(find_unsolved, simple)
   CELLS_SET(grid, initial_setup);
 
   struct coord unsolved;
-  EXPECT_TRUE(solver_find_unsolved(grid, &unsolved));
+  EXPECT_TRUE(find_unsolved(grid, &unsolved));
 
   EXPECT_UINT_EQ(unsolved.x, 2);
   EXPECT_UINT_EQ(unsolved.y, 1);
@@ -42,7 +42,7 @@ TEST_F(find_unsolved, not_found)
   CELLS_SET(grid, initial_setup);
 
   struct coord unsolved;
-  EXPECT_FALSE(solver_find_unsolved(grid, &unsolved));
+  EXPECT_FALSE(find_unsolved(grid, &unsolved));
 
   minesweeper_grid_destroy(grid);
   return true;

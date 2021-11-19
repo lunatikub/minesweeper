@@ -11,10 +11,7 @@
  * of this solver module.
  */
 
-PROTOTYPE_FOR_UNIT_TEST(bool solver_find_unsolved(const struct grid* grid,
-                                                  struct coord* unsolved));
-
-PROTOTYPE_FOR_UNIT_TEST(void solver_adjacent_mines(const struct grid* grid,
-                                                   struct grid* adjacent));
+PROTOTYPE_FOR_UNIT_TEST(bool find_unsolved(const struct grid* grid,
+                                           struct coord* unsolved));
 
 #endif /* !__SOLVER_UNIT_TEST_H__ */

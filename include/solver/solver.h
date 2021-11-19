@@ -17,7 +17,7 @@ struct solution
 };
 
 /**
- * Solve a minesweeper grid.
+ * Solve a minesweeper grid configuration.
  *
  * @param grid Grid to solve.
  * @return List of mines and empty cells to discover.
