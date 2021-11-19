@@ -7,7 +7,7 @@
     EXPECT_UINT_EQ(list_cell_get_nr(cfg->unsolved), nr_expected);              \
     for (unsigned i = 0; i < nr_expected; ++i) {                               \
       const struct coord* c = &EXPECTED[i];                                    \
-      EXPECT_TRUE(list_cell_exist(cfg->unsolved, c->x, c->y));                 \
+      EXPECT_TRUE(list_cell_exist(cfg->unsolved, *c));                         \
     }                                                                          \
   } while (0)
 

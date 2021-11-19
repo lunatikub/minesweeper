@@ -15,11 +15,11 @@ struct list_cell
 };
 
 static inline struct cell*
-cell_new(unsigned x, unsigned y)
+cell_new(struct coord* coord)
 {
   struct cell* cell = malloc(sizeof(*cell));
-  cell->coord.y = y;
-  cell->coord.x = x;
+  cell->coord.y = coord->y;
+  cell->coord.x = coord->x;
   return cell;
 }
 
@@ -45,9 +45,9 @@ list_cell_destroy(struct list_cell* cells)
 }
 
 void
-list_cell_add_head(struct list_cell* cells, unsigned x, unsigned y)
+list_cell_add_head(struct list_cell* cells, struct coord coord)
 {
-  struct cell* cell = cell_new(x, y);
+  struct cell* cell = cell_new(&coord);
   LIST_INSERT_HEAD(&cells->head, cell, next);
   ++cells->nr;
 }
@@ -91,12 +91,12 @@ list_cell_get_coord(struct cell* cell)
 }
 
 bool
-list_cell_exist(struct list_cell* cells, unsigned x, unsigned y)
+list_cell_exist(struct list_cell* cells, struct coord coord)
 {
   struct cell* cell;
   LIST_FOREACH(cell, &cells->head, next)
   {
-    if (cell->coord.x == x && cell->coord.y == y) {
+    if (cell->coord.x == coord.x && cell->coord.y == coord.y) {
       return true;
     }
   }

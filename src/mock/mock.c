@@ -16,7 +16,7 @@ mock_init_solution(struct grid* solution, unsigned mines)
   list_cell_t* cells = list_cell_create();
   for (unsigned y = 0; y < solution->height; ++y) {
     for (unsigned x = 0; x < solution->width; ++x) {
-      list_cell_add_head(cells, x, y);
+      list_cell_add_head(cells, (struct coord){ x, y });
     }
   }
 
