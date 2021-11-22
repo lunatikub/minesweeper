@@ -103,9 +103,18 @@ list_cell_exist(struct list_cell* cells, struct coord coord)
   return false;
 }
 
-void
-list_cell_foreach(struct list_cell* cells, list_cell_cb cb, void* arg)
+struct coord*
+list_cell_to_array(struct list_cell* cells, unsigned* sz)
 {
   struct cell* cell;
-  LIST_FOREACH(cell, &cells->head, next) { cb(cell, arg); }
+  struct coord* coords = calloc(cells->nr, sizeof(struct coord));
+  unsigned i = 0;
+
+  LIST_FOREACH(cell, &cells->head, next)
+  {
+    coords[i] = cell->coord;
+    ++i;
+  }
+  *sz = cells->nr;
+  return coords;
 }

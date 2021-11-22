@@ -60,11 +60,7 @@ list_cell_get_coord(cell_t* cell);
 bool
 list_cell_exist(list_cell_t* cells, struct coord coord);
 
-/**
- * Call the callback given in argument for each cell of the list.
- */
-typedef void (*list_cell_cb)(cell_t* cell, void* arg);
-void
-list_cell_foreach(struct list_cell* cells, list_cell_cb cb, void* arg);
+struct coord*
+list_cell_to_array(struct list_cell* cells, unsigned* sz);
 
 #endif /* !__LIST_CELL_H__ */
