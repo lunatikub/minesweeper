@@ -1,15 +1,34 @@
 /* Warning: has to be included only time in the test suite.
  * No guardians are needed. */
 
-#define TEST_UNSOLVED(CFG, EXPECTED)                                           \
+static inline bool
+coord_exist(const struct coord* l, unsigned n, const struct coord* c)
+{
+  for (unsigned i = 0; i < n; ++i) {
+    const struct coord* _c = &l[i];
+    if (_c->x == c->x && _c->y == c->y) {
+      return true;
+    }
+  }
+  return false;
+}
+
+#define TEST_CONFIGURATION(GRID, UNSOLVED, COVERED)                            \
   do {                                                                         \
-    unsigned nr_expected = sizeof(EXPECTED) / sizeof(struct coord);            \
-    EXPECT_UINT_EQ((CFG)->nr_unsolved, nr_expected);                           \
-    for (unsigned i = 0; i < nr_expected; ++i) {                               \
-      const struct coord* c1 = &EXPECTED[i];                                   \
-      const struct coord* c2 = &(CFG)->unsolved[i];                            \
-      EXPECT_TRUE(c1->x == c2->x && c1->y == c2->y);                           \
+    struct configuration* cfg = configuration_get(GRID);                       \
+    unsigned nr_unsolved_expected = sizeof(UNSOLVED) / sizeof(struct coord);   \
+    unsigned nr_covered_expected = sizeof(COVERED) / sizeof(struct coord);     \
+    EXPECT_UINT_EQ(cfg->nr_unsolved, nr_unsolved_expected);                    \
+    EXPECT_UINT_EQ(cfg->nr_covered, nr_covered_expected);                      \
+    for (unsigned i = 0; i < nr_unsolved_expected; ++i) {                      \
+      const struct coord* c = &UNSOLVED[i];                                    \
+      EXPECT_TRUE(coord_exist(cfg->unsolved, cfg->nr_unsolved, c));            \
     }                                                                          \
+    for (unsigned i = 0; i < nr_covered_expected; ++i) {                       \
+      const struct coord* c = &COVERED[i];                                     \
+      EXPECT_TRUE(coord_exist(cfg->covered, cfg->nr_covered, c));              \
+    }                                                                          \
+    configuration_destroy(cfg);                                                \
   } while (0)
 
 TEST_F(configuration, simple)
@@ -25,15 +44,16 @@ TEST_F(configuration, simple)
 
   };
   static const struct coord unsolved_expected[] = {
-    { 0, 2 }, { 1, 1 }, { 0, 0 },
+    { 1, 1 }, { 0, 0 }, { 0, 2 },
+  };
+  static const struct coord covered_expected[] = {
+    { 0, 1 }, { 1, 2 }, { 1, 2 },
   };
   /* clang-format on */
   CELLS_SET(grid, initial_setup);
 
-  struct configuration* cfg = configuration_get(grid);
-  TEST_UNSOLVED(cfg, unsolved_expected);
+  TEST_CONFIGURATION(grid, unsolved_expected, covered_expected);
 
-  configuration_destroy(cfg);
   minesweeper_grid_destroy(grid);
   return true;
 }
@@ -54,13 +74,14 @@ TEST_F(configuration, advanced)
   static const struct coord unsolved_expected[] = {
     { 3, 3 }, { 1, 2 }, { 2, 3 }, { 3, 2 }, { 3, 1 },
   };
+  static const struct coord covered_expected[] = {
+    { 1, 3 }, { 2, 2 }, { 4, 0 }, { 4, 1 }, { 4, 2 },
+  };
   /* clang-format on */
   CELLS_SET(grid, initial_setup);
 
-  struct configuration* cfg = configuration_get(grid);
-  TEST_UNSOLVED(cfg, unsolved_expected);
+  TEST_CONFIGURATION(grid, unsolved_expected, covered_expected);
 
-  configuration_destroy(cfg);
   minesweeper_grid_destroy(grid);
   return true;
 }
