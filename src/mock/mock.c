@@ -23,8 +23,8 @@ mock_init_solution(struct grid* solution, unsigned mines)
   for (unsigned m = 0; m < mines; ++m) {
     unsigned r = rand() % list_cell_get_nr(cells);
     cell_t* cell = list_cell_get_nth(cells, r);
-    struct coord coord = list_cell_get_coord(cell);
-    SET(solution, coord.x, coord.y, MINE);
+    struct coord* coord = list_cell_get_coord(cell);
+    SET(solution, coord->x, coord->y, MINE);
     list_cell_remove(cells, cell);
   }
 

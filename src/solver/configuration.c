@@ -38,57 +38,95 @@ find_unsolved(const struct grid* grid, struct coord* unsolved)
   return false;
 }
 
-/**
- * Depth-first search of each unsolved cell.
- */
-static void
-configuration_get_unsolved(const struct grid* grid,
-                           struct configuration* cfg,
-                           struct coord unsolved_cell)
+struct context
 {
-  if (is_solved(grid, unsolved_cell.x, unsolved_cell.y) == false) {
-    list_cell_add_head(cfg->unsolved, unsolved_cell);
+  const struct grid* grid;
+  list_cell_t* unsolved;
+  list_cell_t* covered;
+  struct configuration* cfg;
+};
+
+static inline struct context*
+context_create(const struct grid* grid, struct configuration* cfg)
+{
+  struct context* ctx = calloc(1, sizeof(*ctx));
+  ctx->cfg = cfg;
+  ctx->grid = grid;
+  ctx->unsolved = list_cell_create();
+  ctx->covered = list_cell_create();
+  return ctx;
+}
+
+static inline void
+context_destroy(struct context* ctx)
+{
+  list_cell_destroy(ctx->unsolved);
+  list_cell_destroy(ctx->covered);
+  free(ctx);
+}
+
+/* Depth-first search of each unsolved cell. */
+static inline void
+configuration_get_unsolved_dfs(struct context* ctx, struct coord unsolved_cell)
+{
+  if (is_solved(ctx->grid, unsolved_cell.x, unsolved_cell.y) == false) {
+    list_cell_add_head(ctx->unsolved, unsolved_cell);
   }
 
   /* clang-format off */
   /* for each neighbors not visited, not covered, not flagged, not empty:
      call recursively the function */
   FOREACH_NEIGHBORS(
-    grid, unsolved_cell.x, unsolved_cell.y,
-    unsigned v = GET(grid, neighbor.x, neighbor.y);
+    ctx->grid, unsolved_cell.x, unsolved_cell.y,
+    unsigned v = GET(ctx->grid, neighbor.x, neighbor.y);
     if (v >= 1 && v <= 8 &&
-        list_cell_exist(cfg->unsolved, neighbor) == false) {
-      configuration_get_unsolved(grid, cfg, neighbor);
+        list_cell_exist(ctx->unsolved, neighbor) == false) {
+      configuration_get_unsolved_dfs(ctx, neighbor);
     });
   /* clang-format on */
 }
 
-static inline struct configuration*
-configuration_create(void)
+static inline void
+set_unsolved_cb(cell_t* cell, void* arg)
 {
-  struct configuration* cfg = calloc(1, sizeof(*cfg));
-  cfg->unsolved = list_cell_create();
-  return cfg;
+  struct context* ctx = arg;
+  struct configuration* cfg = ctx->cfg;
+
+  cfg->unsolved[cfg->nr_unsolved] = *list_cell_get_coord(cell);
+  ++cfg->nr_unsolved;
+}
+
+static inline void
+configuration_get_unsolved(struct context* ctx, struct coord* unsolved_cell)
+{
+  struct configuration* cfg = ctx->cfg;
+
+  configuration_get_unsolved_dfs(ctx, *unsolved_cell);
+  cfg->unsolved = calloc(list_cell_get_nr(ctx->unsolved), sizeof(struct coord));
+  list_cell_foreach(ctx->unsolved, set_unsolved_cb, ctx);
 }
 
 struct configuration*
 configuration_get(const struct grid* grid)
 {
-  struct configuration* cfg = configuration_create();
+  struct configuration* cfg = calloc(1, sizeof(struct configuration));
+  struct context* ctx = context_create(grid, cfg);
 
+  /* Find an unsolved cell in the grid. */
   struct coord unsolved_cell;
   if (find_unsolved(grid, &unsolved_cell) == false) {
     return NULL;
   }
 
-  configuration_get_unsolved(grid, cfg, unsolved_cell);
+  configuration_get_unsolved(ctx, &unsolved_cell);
 
+  context_destroy(ctx);
   return cfg;
 }
 
 void
 configuration_destroy(struct configuration* cfg)
 {
-  list_cell_destroy(cfg->unsolved);
+  free(cfg->unsolved);
   free(cfg);
 }

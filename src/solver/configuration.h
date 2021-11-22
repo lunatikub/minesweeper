@@ -5,12 +5,15 @@
 #include <minesweeper/list_cell.h>
 
 /**
- * A configuration is a list of unsolved cells linked by the edges
- * with the covered adjacent celles.
+ * A configuration is a list of unsolved cells.
+ * Each cell has a list of edges to the covered adjacent cells.
  */
 struct configuration
 {
-  list_cell_t* unsolved;
+  struct coord* unsolved; /* list of unsolved cells */
+  struct coord* covered;  /* list of covered adjacent cells */
+  unsigned nr_unsolved;   /* number of unsolved cells */
+  unsigned nr_covered;    /* number of covered adjacent cells */
 };
 
 /**

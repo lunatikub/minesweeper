@@ -84,10 +84,10 @@ list_cell_get_nr(list_cell_t* cells)
   return cells->nr;
 }
 
-struct coord
+struct coord*
 list_cell_get_coord(struct cell* cell)
 {
-  return cell->coord;
+  return &cell->coord;
 }
 
 bool
@@ -101,4 +101,11 @@ list_cell_exist(struct list_cell* cells, struct coord coord)
     }
   }
   return false;
+}
+
+void
+list_cell_foreach(struct list_cell* cells, list_cell_cb cb, void* arg)
+{
+  struct cell* cell;
+  LIST_FOREACH(cell, &cells->head, next) { cb(cell, arg); }
 }
