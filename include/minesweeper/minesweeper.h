@@ -32,4 +32,10 @@ struct coord
 bool
 is_solved(const struct grid* grid, unsigned x, unsigned y);
 
+/**
+ * Return true if the both coordinates are adjacent, otherwise return false.
+ */
+bool
+is_adjacent(struct coord* c1, struct coord* c2);
+
 #endif /* !__MINESWEEPER_H__ */

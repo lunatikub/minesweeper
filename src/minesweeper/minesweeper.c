@@ -22,3 +22,11 @@ is_solved(const struct grid* grid, unsigned x, unsigned y)
 
   return v == nr;
 }
+
+bool
+is_adjacent(struct coord* c1, struct coord* c2)
+{
+  int dx = c1->x - c2->x;
+  int dy = c1->y - c2->y;
+  return dx >= -1 && dx <= 1 && dy >= -1 && dy <= 1;
+}

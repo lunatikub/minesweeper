@@ -105,6 +105,30 @@ configuration_get_covered(struct context* ctx)
   }
 }
 
+static inline void
+configuration_get_edges(struct context* ctx)
+{
+  unsigned i, j;
+  struct configuration* cfg = ctx->cfg;
+
+  cfg->edges = calloc(cfg->nr_unsolved, sizeof(unsigned*));
+  cfg->nr_edge = calloc(cfg->nr_unsolved, sizeof(unsigned));
+  for (i = 0; i < cfg->nr_unsolved; ++i) {
+    cfg->edges[i] = calloc(cfg->nr_covered, sizeof(unsigned));
+  }
+
+  for (i = 0; i < cfg->nr_unsolved; ++i) {
+    struct coord* unsolved = &cfg->unsolved[i];
+    for (j = 0; j < cfg->nr_covered; ++j) {
+      struct coord* covered = &cfg->covered[j];
+      if (is_adjacent(unsolved, covered) == true) {
+        cfg->edges[i][cfg->nr_edge[i]] = j;
+        ++cfg->nr_edge[i];
+      }
+    }
+  }
+}
+
 struct configuration*
 configuration_get(const struct grid* grid)
 {
@@ -119,6 +143,7 @@ configuration_get(const struct grid* grid)
   cfg->unsolved = list_cell_to_array(ctx->unsolved, &cfg->nr_unsolved);
   configuration_get_covered(ctx);
   cfg->covered = list_cell_to_array(ctx->covered, &cfg->nr_covered);
+  configuration_get_edges(ctx);
 
   context_destroy(ctx);
   return cfg;
@@ -127,6 +152,11 @@ configuration_get(const struct grid* grid)
 void
 configuration_destroy(struct configuration* cfg)
 {
+  for (unsigned i = 0; i < cfg->nr_unsolved; ++i) {
+    free(cfg->edges[i]);
+  }
+  free(cfg->edges);
+  free(cfg->nr_edge);
   free(cfg->covered);
   free(cfg->unsolved);
   free(cfg);

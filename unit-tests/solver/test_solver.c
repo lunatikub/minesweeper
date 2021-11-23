@@ -16,6 +16,7 @@ const static struct test solver_tests[] = {
   TEST(find_unsolved, not_found),
   TEST(configuration, simple),
   TEST(configuration, advanced),
+  TEST(configuration, post),
   TEST(solver, simple),
 };
 /* clang-format on */

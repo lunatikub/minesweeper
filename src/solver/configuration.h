@@ -10,10 +10,12 @@
  */
 struct configuration
 {
-  struct coord* unsolved; /* list of unsolved cells */
-  struct coord* covered;  /* list of covered adjacent cells */
-  unsigned nr_unsolved;   /* number of unsolved cells */
-  unsigned nr_covered;    /* number of covered adjacent cells */
+  struct coord* unsolved; /* list of unsolved cells. */
+  struct coord* covered;  /* list of covered adjacent cells. */
+  unsigned** edges;       /* edge from unsolved to covered adjacent cells. */
+  unsigned* nr_edge;      /* number of edge. */
+  unsigned nr_unsolved;   /* number of unsolved cells. */
+  unsigned nr_covered;    /* number of covered adjacent cells. */
 };
 
 /**
