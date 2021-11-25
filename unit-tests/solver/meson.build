@@ -8,12 +8,14 @@ test_solver = executable(
   test_name,
   '../utest.c',
   test_solver_src,
+  matrix_src,
   solver_src,
   minesweeper_src,
   include_directories: [
     inc,
     unit_test_inc,
     solver_inc,
+    matrix_inc,
   ],
   c_args: flags + ['-DUNIT_TEST_TARGET'],
 )

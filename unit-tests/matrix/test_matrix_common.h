@@ -2,8 +2,8 @@
 #define __TEST_MATRIX_COMMON_H__
 
 #define TEST_MATRIX(R, C, ELTS, EXPECTED, CODE)                                \
-  matrix_t* A = matrix_new((R), (C));                                          \
-  matrix_t* B = matrix_new((R), (C));                                          \
+  struct matrix* A = matrix_new((R), (C));                                     \
+  struct matrix* B = matrix_new((R), (C));                                     \
   matrix_set(A, (ELTS));                                                       \
   matrix_set(B, (EXPECTED));                                                   \
   CODE;                                                                        \

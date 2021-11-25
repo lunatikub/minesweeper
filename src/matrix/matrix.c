@@ -4,16 +4,6 @@
 
 #include "matrix_unit-test.h"
 
-struct matrix
-{
-  unsigned m;      /* rows */
-  unsigned n;      /* columns */
-  long double** e; /* elements */
-};
-
-/** Set the elements of the matrix A with
-    the elements given in argument. */
-PRIVATE_EXCEPT_UNIT_TEST
 void
 matrix_set(struct matrix* A, const long double* e)
 {
@@ -24,9 +14,6 @@ matrix_set(struct matrix* A, const long double* e)
   }
 }
 
-/** Return true if the both matrix are equals,
-    otherwise return false. */
-PRIVATE_EXCEPT_UNIT_TEST
 bool
 matrix_eq(const struct matrix* A, const struct matrix* B)
 {

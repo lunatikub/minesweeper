@@ -70,7 +70,7 @@ static inline void
 configuration_get_unsolved(struct context* ctx, struct coord unsolved_cell)
 {
   if (is_solved(ctx->grid, unsolved_cell.x, unsolved_cell.y) == false) {
-    list_cell_add_head(ctx->unsolved, unsolved_cell);
+    list_cell_insert_tail(ctx->unsolved, unsolved_cell);
   }
 
   /* clang-format off */
@@ -99,7 +99,7 @@ configuration_get_covered(struct context* ctx)
       ctx->grid, unsolved->x, unsolved->y,
       if (GET(ctx->grid, neighbor.x, neighbor.y) == COVERED &&
           list_cell_exist(ctx->covered, neighbor) == false) {
-        list_cell_add_head(ctx->covered, neighbor);
+        list_cell_insert_tail(ctx->covered, neighbor);
       });
     /* clang-format on */
   }

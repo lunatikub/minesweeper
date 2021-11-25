@@ -25,10 +25,16 @@ void
 list_cell_destroy(list_cell_t* cells);
 
 /**
- * Add a cell to the list at head.
+ * Insert a cell to the list at head.
  */
 void
-list_cell_add_head(list_cell_t* cells, struct coord coord);
+list_cell_insert_head(list_cell_t* cells, struct coord coord);
+
+/**
+ * Insert a cell to the list at tail.
+ */
+void
+list_cell_insert_tail(list_cell_t* cells, struct coord coord);
 
 /**
  * Get the nth cell of the list.
