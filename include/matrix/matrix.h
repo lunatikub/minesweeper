@@ -1,8 +1,14 @@
 #ifndef __MATRIX_H__
 #define __MATRIX_H__
 
-/** Opaque structure of a matrix */
-typedef struct matrix matrix_t;
+#include <stdbool.h>
+
+struct matrix
+{
+  unsigned m;      /* rows */
+  unsigned n;      /* columns */
+  long double** e; /* elements */
+};
 
 /**
  * Create a matrix.
@@ -30,5 +36,19 @@ matrix_destroy(struct matrix* A);
  */
 void
 matrix_gauss_jordan(struct matrix* A);
+
+/**
+ * Compare two matrixs, return true if equal,
+ * otherwise return false.
+ */
+bool
+matrix_eq(const struct matrix* A, const struct matrix* B);
+
+/**
+ * Set the elements of the matrix A with
+ * the elements given in argument.
+ */
+void
+matrix_set(struct matrix* A, const long double* e);
 
 #endif /* !__MATRIX_H__ */

@@ -8,6 +8,7 @@
 /** List of sub-section tests **/
 #include "test_configuration.h"
 #include "test_find_unsolved.h"
+#include "test_map.h"
 #include "test_solver.h"
 
 /* clang-format off */
@@ -17,6 +18,9 @@ const static struct test solver_tests[] = {
   TEST(configuration, simple),
   TEST(configuration, advanced),
   TEST(configuration, post),
+  TEST(map, simple),
+  TEST(map, advanced),
+  TEST(map, post),
   TEST(solver, simple),
 };
 /* clang-format on */
