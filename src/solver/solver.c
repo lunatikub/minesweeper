@@ -31,7 +31,7 @@ configuration_map(struct configuration* cfg,
 }
 
 struct solution*
-minesweeper_solve(struct grid* grid)
+minesweeper_solve(const struct grid* grid)
 {
   struct grid* adjacent = minesweeper_grid_new(grid->width, grid->height);
   minesweeper_grid_destroy(adjacent);

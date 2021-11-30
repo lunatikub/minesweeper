@@ -2,10 +2,12 @@
 
 #include "common.h"
 #include "configuration.h"
+#include "solution.h"
 #include "solver_unit-test.h"
 #include "utest.h"
 
 /** List of sub-section tests **/
+#include "test_bounds.h"
 #include "test_configuration.h"
 #include "test_find_unsolved.h"
 #include "test_map.h"
@@ -21,6 +23,7 @@ const static struct test solver_tests[] = {
   TEST(map, simple),
   TEST(map, advanced),
   TEST(map, post),
+  TEST(bounds, simple),
   TEST(solver, simple),
 };
 /* clang-format on */

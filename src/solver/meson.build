@@ -1,5 +1,6 @@
 solver_src = files(
   'configuration.c',
+  'solution.c',
   'solver.c',
 )
 

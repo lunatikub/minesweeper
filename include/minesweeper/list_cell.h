@@ -66,6 +66,10 @@ list_cell_get_coord(cell_t* cell);
 bool
 list_cell_exist(list_cell_t* cells, struct coord coord);
 
+/**
+ * Convert a list to an array.
+ * @warning: has to freed.
+ */
 struct coord*
 list_cell_to_array(struct list_cell* cells, unsigned* sz);
 

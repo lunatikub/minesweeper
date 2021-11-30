@@ -10,8 +10,8 @@
  */
 struct solution
 {
-  SLIST_HEAD(, coord) mines;
-  SLIST_HEAD(, coord) empty;
+  struct coord* mines;
+  struct coord* empty;
   unsigned nr_mine;
   unsigned nr_empty;
 };
@@ -23,6 +23,6 @@ struct solution
  * @return List of mines and empty cells to discover.
  */
 struct solution*
-minesweeper_solve(struct grid* grid);
+minesweeper_solve(const struct grid* grid);
 
 #endif /* !__SOLVER_H__ */
