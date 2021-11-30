@@ -2,7 +2,7 @@
 
 #include <matrix/matrix.h>
 
-#include "matrix_unit-test.h"
+#include "operation.h"
 
 void
 matrix_set(struct matrix* A, const long double* e)
@@ -31,7 +31,6 @@ matrix_eq(const struct matrix* A, const struct matrix* B)
   return true;
 }
 
-/** Swap two rows. */
 PRIVATE_EXCEPT_UNIT_TEST
 void
 swap_row(struct matrix* A, unsigned i, unsigned j)
@@ -43,7 +42,6 @@ swap_row(struct matrix* A, unsigned i, unsigned j)
   }
 }
 
-/** Multiply a row by a constant. */
 PRIVATE_EXCEPT_UNIT_TEST
 void
 mult_row(struct matrix* A, unsigned i, long double lambda)
@@ -53,8 +51,6 @@ mult_row(struct matrix* A, unsigned i, long double lambda)
   }
 }
 
-/** Add to a row the product of another row
-    multiply by a constant. */
 PRIVATE_EXCEPT_UNIT_TEST
 void
 add_row(struct matrix* A, unsigned i, unsigned j, long double lambda)
