@@ -3,7 +3,6 @@
 #include "common.h"
 #include "configuration.h"
 #include "solution.h"
-#include "solver_unit-test.h"
 #include "utest.h"
 
 /** List of sub-section tests **/

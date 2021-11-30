@@ -3,6 +3,7 @@
 
 #include <minesweeper/grid.h>
 #include <minesweeper/list_cell.h>
+#include <unit-test.h>
 
 /**
  * A configuration is a list of unsolved cells.
@@ -34,5 +35,28 @@ configuration_get(const struct grid* grid);
  */
 void
 configuration_destroy(struct configuration* cfg);
+
+/**
+ * Map a configuration into a matrix.
+ */
+struct matrix*
+configuration_map(struct configuration* cfg,
+                  const struct grid* grid,
+                  const struct grid* adjacents);
+
+/**
+ * All following structures and prototypes are needed
+ * for the unit-tests of this module.
+ */
+
+/**
+ * Find the first unsolved cell in the grid 'grid'.
+ * An unsolved cell is:
+ *   + an uncovered cell between 1 and 8.
+ *   + has almost one covered neighboor.
+ * Return true if found, otherwise return false.
+ */
+PROTOTYPE_FOR_UNIT_TEST(bool find_unsolved(const struct grid* grid,
+                                           struct coord* unsolved));
 
 #endif /* !__CONFIGURATION_H__ */
