@@ -2,7 +2,6 @@
 
 #include "common.h"
 #include "game.h"
-#include "mock_unit-test.h"
 #include "utest.h"
 
 /** List of sub-section tests **/
