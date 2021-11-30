@@ -1,7 +1,7 @@
 #include <mock/mock.h>
 
-#include "common.h"
 #include "game.h"
+#include "test_common.h"
 #include "utest.h"
 
 /** List of sub-section tests **/

@@ -1,9 +1,18 @@
 #include <matrix/matrix.h>
 
-#include "common.h"
 #include "operation.h"
-#include "test_matrix_common.h"
+#include "test_common.h"
 #include "utest.h"
+
+#define TEST_MATRIX(R, C, ELTS, EXPECTED, CODE)                                \
+  struct matrix* A = matrix_new((R), (C));                                     \
+  struct matrix* B = matrix_new((R), (C));                                     \
+  matrix_set(A, (ELTS));                                                       \
+  matrix_set(B, (EXPECTED));                                                   \
+  CODE;                                                                        \
+  EXPECT_TRUE(matrix_eq(A, B));                                                \
+  matrix_destroy(A);                                                           \
+  matrix_destroy(B);
 
 /** List of sub-section tests **/
 #include "test_add_row.h"

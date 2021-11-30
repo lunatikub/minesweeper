@@ -1,9 +1,9 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+#include <matrix/matrix.h>
 #include <minesweeper/neighbors.h>
 #include <solver/solver.h>
-#include <matrix/matrix.h>
 
 #include "configuration.h"
 

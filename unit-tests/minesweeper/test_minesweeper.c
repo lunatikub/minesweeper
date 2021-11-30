@@ -1,6 +1,6 @@
 #include <minesweeper/list_cell.h>
 
-#include "common.h"
+#include "test_common.h"
 #include "utest.h"
 
 /** List of sub-section tests **/
