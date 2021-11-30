@@ -3,15 +3,10 @@
 
 #include <minesweeper/neighbors.h>
 #include <solver/solver.h>
+#include <matrix/matrix.h>
 
 #include "configuration.h"
-#include "solver_unit-test.h"
 
-/**
- * An unsolved cell:
- *   + is a uncovered cell between 1 and 8.
- *   + has almost one covered neighboor.
- */
 PRIVATE_EXCEPT_UNIT_TEST
 bool
 find_unsolved(const struct grid* grid, struct coord* unsolved)
@@ -160,4 +155,24 @@ configuration_destroy(struct configuration* cfg)
   free(cfg->covered);
   free(cfg->unsolved);
   free(cfg);
+}
+
+struct matrix*
+configuration_map(struct configuration* cfg,
+                  const struct grid* grid,
+                  const struct grid* adjacents)
+{
+  unsigned i, j;
+  struct matrix* A = matrix_new(cfg->nr_unsolved, cfg->nr_covered + 1);
+
+  for (i = 0; i < cfg->nr_unsolved; ++i) {
+    for (j = 0; j < cfg->nr_edge[i]; ++j) {
+      A->e[i][cfg->edges[i][j]] = 1;
+    }
+    struct coord* c = &cfg->unsolved[i];
+    A->e[i][cfg->nr_covered] =
+      GET(grid, c->x, c->y) - GET(adjacents, c->x, c->y);
+  }
+
+  return A;
 }
