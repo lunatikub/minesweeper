@@ -52,11 +52,11 @@ mock_game_new(unsigned width, unsigned height, unsigned mines)
 
   game->mines = mines;
 
-  game->solution = minesweeper_grid_new(width, height);
-  game->current = minesweeper_grid_new(width, height);
+  game->solution = grid_create(width, height);
+  game->current = grid_create(width, height);
 
   mock_init_solution(game->solution, mines);
-  minesweeper_set_adjacent(game->solution, game->solution);
+  grid_adjacents(game->solution, game->solution);
   mock_init_current(game->current);
   game->covered = width * height;
 
@@ -66,8 +66,8 @@ mock_game_new(unsigned width, unsigned height, unsigned mines)
 void
 mock_game_destroy(struct game* game)
 {
-  minesweeper_grid_destroy(game->solution);
-  minesweeper_grid_destroy(game->current);
+  grid_destroy(game->solution);
+  grid_destroy(game->current);
   free(game);
 }
 

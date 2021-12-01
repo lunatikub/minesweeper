@@ -3,10 +3,10 @@
 
 #define TEST_MAP                                                               \
   do {                                                                         \
-    struct grid* grid = minesweeper_grid_new(w, h);                            \
-    struct grid* adjacents = minesweeper_grid_new(w, h);                       \
+    struct grid* grid = grid_create(w, h);                                     \
+    struct grid* adjacents = grid_create(w, h);                                \
     CELLS_SET(grid, initial_setup);                                            \
-    struct configuration* cfg = configuration_get(grid);                       \
+    struct configuration* cfg = configuration_create(grid);                    \
     struct matrix* A = configuration_map(cfg, grid, adjacents);                \
     struct matrix* B = matrix_new(cfg->nr_unsolved, cfg->nr_covered + 1);      \
     matrix_set(B, expected);                                                   \
@@ -14,8 +14,8 @@
     configuration_destroy(cfg);                                                \
     matrix_destroy(A);                                                         \
     matrix_destroy(B);                                                         \
-    minesweeper_grid_destroy(grid);                                            \
-    minesweeper_grid_destroy(adjacents);                                       \
+    grid_destroy(grid);                                                        \
+    grid_destroy(adjacents);                                                   \
   } while (0)
 
 TEST_F(map, simple)

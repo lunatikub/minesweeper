@@ -17,12 +17,9 @@ struct solution
 };
 
 /**
- * Solve a minesweeper grid configuration.
- *
- * @param grid Grid to solve.
- * @return List of mines and empty cells to discover.
+ * Solve a minesweeper grid.
  */
 struct solution*
-minesweeper_solve(const struct grid* grid);
+solve(const struct grid* grid);
 
 #endif /* !__SOLVER_H__ */

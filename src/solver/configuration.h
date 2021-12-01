@@ -20,18 +20,13 @@ struct configuration
 };
 
 /**
- * Get a configuration from a grid.
- *
- * @param grid Handle of a grid.
- * @return If succeed return the configuration, othewise return @c NULL.
+ * Create a configuration from a grid.
  */
 struct configuration*
-configuration_get(const struct grid* grid);
+configuration_create(const struct grid* grid);
 
 /**
- * Destroy a configuration previously returned by @c configuration_get.
- *
- * @param cfg Configuration to destroy.
+ * Destroy a configuration previously returned by 'configuration_create'.
  */
 void
 configuration_destroy(struct configuration* cfg);

@@ -4,7 +4,7 @@
 #include <minesweeper/neighbors.h>
 
 struct grid*
-minesweeper_grid_new(unsigned width, unsigned height)
+grid_create(unsigned width, unsigned height)
 {
   struct grid* new_grid = malloc(sizeof(*new_grid));
 
@@ -16,14 +16,14 @@ minesweeper_grid_new(unsigned width, unsigned height)
 }
 
 void
-minesweeper_grid_destroy(struct grid* grid)
+grid_destroy(struct grid* grid)
 {
   free(grid->cells);
   free(grid);
 }
 
 void
-minesweeper_set_adjacent(const struct grid* grid, struct grid* adjacent)
+grid_adjacents(const struct grid* grid, struct grid* adjacents)
 {
   for (unsigned y = 0; y < grid->height; ++y) {
     for (unsigned x = 0; x < grid->width; ++x) {
@@ -32,8 +32,8 @@ minesweeper_set_adjacent(const struct grid* grid, struct grid* adjacent)
         FOREACH_NEIGHBORS(
           grid, x, y,
           if (GET(grid, neighbor.x, neighbor.y) == FLAGGED) {
-            unsigned v = GET(adjacent, x, y) + 1;
-            SET(adjacent, x, y, v);
+            unsigned v = GET(adjacents, x, y) + 1;
+            SET(adjacents, x, y, v);
           });
         /* clang-format on */
       }

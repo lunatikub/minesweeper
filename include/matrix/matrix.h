@@ -11,19 +11,13 @@ struct matrix
 };
 
 /**
- * Create a matrix.
- *
- * @param m Number of rows.
- * @param n Number of colums.
- * @return Matrix handle allocated.
+ * Create a matrix of 'm' rows and 'n' columns.
  */
 struct matrix*
 matrix_new(unsigned m, unsigned n);
 
 /**
- * Destroy a matrix previously allocated by @c matrix_new.
- *
- * @param A Matrix handle.
+ * Destroy a matrix previously allocated by 'matrix_new'.
  */
 void
 matrix_destroy(struct matrix* A);
@@ -31,8 +25,6 @@ matrix_destroy(struct matrix* A);
 /**
  * GaussJordan process in place the reduced
  * row echelon form of a matrix.
- *
- * @param A matrix handle.
  */
 void
 matrix_gauss_jordan(struct matrix* A);

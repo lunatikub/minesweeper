@@ -44,7 +44,6 @@ EOF
 
 cat << EOF > $ROOT_DIR/unit-tests/${MODULE}/test_${MODULE}.c
 #include "common.h"
-#include "${MODULE}_unit-test.h"
 #include "utest.h"
 #include <${MODULE}.h>
 
@@ -78,27 +77,6 @@ EOF
 
 cat << EOF > $ROOT_DIR/src/${MODULE}/${MODULE}.c
 #include <${MODULE}.h>
-EOF
-
-###
-### src/<module>/<module>_unit-test.h
-###
-
-cat << EOF > $ROOT_DIR/src/${MODULE}/${MODULE}_unit-test.h
-#ifndef __${MODULE^^}_UNIT_TEST_H__
-#define __${MODULE^^}_UNIT_TEST_H__
-
-#include <unit-test.h>
-
-/**
- * This file defines all prototypes needed for the unit-tests
- * of this ${MODULE} module.
- */
-
-// PROTOTYPE_FOR_UNIT_TEST(proto_1);
-// PROTOTYPE_FOR_UNIT_TEST(proto_2);
-
-#endif /* !__${MODULE^^}_UNIT_TEST_H__ */
 EOF
 
 ###
