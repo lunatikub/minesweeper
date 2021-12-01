@@ -125,7 +125,7 @@ configuration_get_edges(struct context* ctx)
 }
 
 struct configuration*
-configuration_get(const struct grid* grid)
+configuration_create(const struct grid* grid)
 {
   struct configuration* cfg = calloc(1, sizeof(struct configuration));
   struct context* ctx = context_create(grid, cfg);

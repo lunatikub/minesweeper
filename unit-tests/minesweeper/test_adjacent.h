@@ -5,8 +5,8 @@ TEST_F(adjacent, simple)
 {
   CFG(2, 2, 0);
 
-  struct grid* grid = minesweeper_grid_new(w, h);
-  struct grid* adjacent = minesweeper_grid_new(w, h);
+  struct grid* grid = grid_create(w, h);
+  struct grid* adjacents = grid_create(w, h);
 
   /* clang-format off */
   static const unsigned initial_setup[] = {
@@ -21,20 +21,21 @@ TEST_F(adjacent, simple)
   /* clang-format on */
 
   CELLS_SET(grid, initial_setup);
-  minesweeper_set_adjacent(grid, adjacent);
+  grid_adjacents(grid, adjacents);
 
-  EXPECT_TRUE(CELLS_EQ(expected_adjacent, adjacent->cells, CELLS_SZ(adjacent)));
+  EXPECT_TRUE(
+    CELLS_EQ(expected_adjacent, adjacents->cells, CELLS_SZ(adjacents)));
 
-  minesweeper_grid_destroy(grid);
-  minesweeper_grid_destroy(adjacent);
+  grid_destroy(grid);
+  grid_destroy(adjacents);
   return true;
 }
 
 TEST_F(adjacent, advanced)
 {
   CFG(5, 5, 0);
-  struct grid* grid = minesweeper_grid_new(w, h);
-  struct grid* adjacent = minesweeper_grid_new(w, h);
+  struct grid* grid = grid_create(w, h);
+  struct grid* adjacents = grid_create(w, h);
 
   /* clang-format off */
   static const unsigned initial_setup[] = {
@@ -55,11 +56,12 @@ TEST_F(adjacent, advanced)
   /* clang-format on */
 
   CELLS_SET(grid, initial_setup);
-  minesweeper_set_adjacent(grid, adjacent);
+  grid_adjacents(grid, adjacents);
 
-  EXPECT_TRUE(CELLS_EQ(expected_adjacent, adjacent->cells, CELLS_SZ(adjacent)));
+  EXPECT_TRUE(
+    CELLS_EQ(expected_adjacent, adjacents->cells, CELLS_SZ(adjacents)));
 
-  minesweeper_grid_destroy(grid);
-  minesweeper_grid_destroy(adjacent);
+  grid_destroy(grid);
+  grid_destroy(adjacents);
   return true;
 }

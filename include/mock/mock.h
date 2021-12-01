@@ -9,37 +9,26 @@
 typedef struct game game_t;
 
 /**
- * Create a new game of minesweeper.
- *
- * @param width Width of the grid.
- * @param heigh Height of the grid.
- * @param mines Number of mines in the grid.
- *
- * @return Opaque structure handling the game.
+ * Create a new game of minesweeper with a grid
+ * of size 'width' x 'heigh' and 'mines' number of mines.
  */
 game_t*
 mock_game_new(unsigned width, unsigned heigh, unsigned mines);
 
 /**
- * Destroy a game.
- *
- * @param game game previsouly allocated with @c mock_game_new.
+ * Destroy a game previously created by 'mock_game_new'.
  */
 void
 mock_game_destroy(game_t* game);
 
 /**
  * Dump the current grid from the player point of view.
- *
- * @param game Handle of a game.
  */
 void
 mock_game_dump(game_t* game);
 
 /**
  * Dump the solution grid.
- *
- * @param game Handle of a game.
  */
 void
 mock_game_dump_solution(struct game* game);
@@ -62,10 +51,6 @@ enum ret
 
 /**
  * Flag, unflag or set an empty cell.
- *
- * @param Handle of a game.
- * @param Action to be done.
- * @param coord Cell on the action has to be done.
  */
 enum ret
 mock_game_play(game_t* game, enum action action, const struct coord* cell);

@@ -21,31 +21,22 @@ struct grid
 #define SET(G, X, Y, V) GET(G, X, Y) = (V)
 
 /**
- * Create a new grid of size specified in parameters.
- *
- * @param width Width of the grid.
- * @param height Height of the grid.
- * @return The new grid allocated.
+ * Create a new grid of size 'width x height'.
  */
 struct grid*
-minesweeper_grid_new(unsigned width, unsigned height);
+grid_create(unsigned width, unsigned height);
 
 /**
- * Destroy a grid previously allocated by @c minesweeper_grid_new.
- *
- * @param grid Grid to destroy.
+ * Destroy a grid previously allocated by 'grid_create'.
  */
 void
-minesweeper_grid_destroy(struct grid* grid);
+grid_destroy(struct grid* grid);
 
 /**
  * Fill the adjacent mines grid given in argument with the number
  * of mines in the neighborhood for each cell.
- *
- * @param grid Grid to browse.
- * @param adjacent Grid to fill with the number of adjacent mines.
  */
 void
-minesweeper_set_adjacent(const struct grid* grid, struct grid* adjacent);
+grid_adjacents(const struct grid* grid, struct grid* adjacents);
 
 #endif /* !__GRID_H__ */

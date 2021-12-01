@@ -4,8 +4,8 @@
 TEST_F(solver, simple)
 {
   CFG(8, 8, 0);
-  struct grid* solution_grid = minesweeper_grid_new(w, h);
-  struct grid* main_grid = minesweeper_grid_new(w, h);
+  struct grid* solution_grid = grid_create(w, h);
+  struct grid* main_grid = grid_create(w, h);
 
   /* clang-format off */
   static const unsigned init_solution[] = {
@@ -34,10 +34,10 @@ TEST_F(solver, simple)
   CELLS_SET(solution_grid, init_solution);
   CELLS_SET(main_grid, init_main);
 
-  struct solution* solutions = minesweeper_solve(main_grid);
+  struct solution* solutions = solve(main_grid);
   (void)solutions;
 
-  minesweeper_grid_destroy(main_grid);
-  minesweeper_grid_destroy(solution_grid);
+  grid_destroy(main_grid);
+  grid_destroy(solution_grid);
   return true;
 }

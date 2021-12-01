@@ -29,7 +29,7 @@
 
 /**
  * Structure used to declare a test.
- * Use helper @c TEST.
+ * Should use helper TEST.
  */
 struct test
 {
@@ -40,7 +40,7 @@ struct test
 
 /**
  * Structure used to declare a test suite.
- * Use helper @c TEST_SUITE.
+ * Should use helper TEST_SUITE.
  */
 struct test_suite
 {

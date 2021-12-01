@@ -15,13 +15,12 @@ const static struct coord neighbors[] = {
 /* clang-format on */
 
 /**
- * Execute the @c CODE foreach valid neighbor.
- * @note: provide the variable @c neighbor of type struct coord.
- *
- * @param G The current grid
- * @param X Source cell coord
- * @param Y Source cell coord
- * @param CODE code to execute
+ * Execute the 'CODE' foreach valid neighbor.
+ * Pprovide the variable 'neighbor' of type struct coord.
+ *   + 'G': is The current grid.
+ *   + 'X': Source cell coord.
+ *   + 'Y': Source cell coord.
+ *   + 'CODE': code to execute.
  */
 #define FOREACH_NEIGHBORS(G, X, Y, CODE)                                       \
   do {                                                                         \

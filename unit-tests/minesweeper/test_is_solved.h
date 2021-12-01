@@ -5,7 +5,7 @@ TEST_F(is_solved, solved)
 {
   CFG(2, 2, 0);
 
-  struct grid* grid = minesweeper_grid_new(w, h);
+  struct grid* grid = grid_create(w, h);
   /* clang-format off */
   static const unsigned initial_setup[] = {
     F, 2,
@@ -21,7 +21,7 @@ TEST_F(is_solved, solved)
   EXPECT_FALSE(is_solved(grid, 0, 0));
   EXPECT_FALSE(is_solved(grid, 1, 1));
 
-  minesweeper_grid_destroy(grid);
+  grid_destroy(grid);
   return true;
 }
 
@@ -29,7 +29,7 @@ TEST_F(is_solved, unsolved)
 {
   CFG(3, 3, 0);
 
-  struct grid* grid = minesweeper_grid_new(w, h);
+  struct grid* grid = grid_create(w, h);
   /* clang-format off */
   static const unsigned initial_setup[] = {
     C, 2, M,
@@ -43,6 +43,6 @@ TEST_F(is_solved, unsolved)
   EXPECT_FALSE(is_solved(grid, 1, 0));
   EXPECT_FALSE(is_solved(grid, 2, 1));
 
-  minesweeper_grid_destroy(grid);
+  grid_destroy(grid);
   return true;
 }

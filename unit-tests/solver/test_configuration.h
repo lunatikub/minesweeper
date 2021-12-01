@@ -44,7 +44,7 @@ coord_find_idx(const struct coord* l, unsigned n, const struct coord* c)
 
 #define TEST_CONFIGURATION(GRID, UNSOLVED, COVERED, NR_EDGE)                   \
   do {                                                                         \
-    struct configuration* cfg = configuration_get(GRID);                       \
+    struct configuration* cfg = configuration_create(GRID);                    \
     unsigned nr_unsolved = sizeof(UNSOLVED) / sizeof(struct coord);            \
     unsigned nr_covered = sizeof(COVERED) / sizeof(struct coord);              \
     EXPECT_UINT_EQ(cfg->nr_unsolved, nr_unsolved);                             \
@@ -58,7 +58,7 @@ coord_find_idx(const struct coord* l, unsigned n, const struct coord* c)
 TEST_F(configuration, simple)
 {
   CFG(3, 3, 0);
-  struct grid* grid = minesweeper_grid_new(w, h);
+  struct grid* grid = grid_create(w, h);
 
   /* clang-format off */
   static const unsigned initial_setup[] = {
@@ -82,14 +82,14 @@ TEST_F(configuration, simple)
   TEST_CONFIGURATION(
     grid, unsolved_expected, covered_expected, nr_edge_expected);
 
-  minesweeper_grid_destroy(grid);
+  grid_destroy(grid);
   return true;
 }
 
 TEST_F(configuration, advanced)
 {
   CFG(5, 5, 0);
-  struct grid* grid = minesweeper_grid_new(w, h);
+  struct grid* grid = grid_create(w, h);
 
   /* clang-format off */
   static const unsigned initial_setup[] = {
@@ -114,14 +114,14 @@ TEST_F(configuration, advanced)
   TEST_CONFIGURATION(
     grid, unsolved_expected, covered_expected, nr_edge_expected);
 
-  minesweeper_grid_destroy(grid);
+  grid_destroy(grid);
   return true;
 }
 
 TEST_F(configuration, post)
 {
   CFG(4, 6, 0);
-  struct grid* grid = minesweeper_grid_new(w, h);
+  struct grid* grid = grid_create(w, h);
 
   /* clang-format off */
   static const unsigned initial_setup[] = {
@@ -148,6 +148,6 @@ TEST_F(configuration, post)
   TEST_CONFIGURATION(
     grid, unsolved_expected, covered_expected, nr_edge_expected);
 
-  minesweeper_grid_destroy(grid);
+  grid_destroy(grid);
   return true;
 }
