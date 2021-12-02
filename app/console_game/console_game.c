@@ -26,8 +26,11 @@ int main(void)
   struct coord to_play;
   enum action action;
   enum ret ret;
+  struct coord first_move = { };
 
-  game_t *game = mock_game_new(5, 5, 4);
+  struct game *game = mock_game_new(8, 8, 10, &first_move);
+
+  mock_game_play(game, SET_EMPTY, &first_move);
 
   do {
     mock_game_dump(game);
