@@ -4,7 +4,8 @@
 TEST_F(game, lost)
 {
   CFG(3, 3, 9);
-  struct game* game = mock_game_new(w, h, m); /* Fill all cells with mines */
+  struct game* game =
+    mock_game_new(w, h, m, NULL); /* Fill all cells with mines */
 
   /* set an empty cell on a mine */
   struct coord c = { 1, 1 };
@@ -17,7 +18,7 @@ TEST_F(game, lost)
 TEST_F(game, set_empty)
 {
   CFG(5, 5, 3);
-  struct game* game = mock_game_new(w, h, m);
+  struct game* game = mock_game_new(w, h, m, NULL);
 
   struct coord not_mine;
   EXPECT_TRUE(find_first_not_mine(game->solution, &not_mine));
@@ -30,7 +31,7 @@ TEST_F(game, set_empty)
 TEST_F(game, flag_unflag)
 {
   CFG(5, 5, 3);
-  struct game* game = mock_game_new(w, h, m);
+  struct game* game = mock_game_new(w, h, m, NULL);
   EXPECT_UINT_EQ(game->mines, m);
 
 #define EXPECTED_FLAGS(FM, F, T)                                               \
@@ -65,7 +66,7 @@ TEST_F(game, flag_unflag)
 TEST_F(game, win_flagged)
 {
   CFG(3, 3, 1);
-  struct game* game = mock_game_new(w, h, m);
+  struct game* game = mock_game_new(w, h, m, NULL);
   EXPECT_UINT_EQ(game->covered, 9);
 
   struct coord mine;
@@ -80,7 +81,7 @@ TEST_F(game, win_flagged)
 TEST_F(game, win_covered)
 {
   CFG(3, 3, 0);
-  struct game* game = mock_game_new(w, h, m);
+  struct game* game = mock_game_new(w, h, m, NULL);
   SET(game->solution, 1, 2, M);
   SET(game->solution, 2, 2, M);
   game->mines = 2;

@@ -47,7 +47,8 @@ modules = [
 ]
 
 applications = [
-  'minesweeper',
+  'console_game',
+  'console_bot',
 ]
 
 foreach module : modules
@@ -58,4 +59,3 @@ endforeach
 foreach app : applications
   subdir('app/' + app)
 endforeach
-

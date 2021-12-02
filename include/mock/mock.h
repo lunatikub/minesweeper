@@ -5,27 +5,42 @@
 
 #include <minesweeper/minesweeper.h>
 
-/** Opaque structure of a minesweeper game */
-typedef struct game game_t;
+/**
+ * Mock a minesweeper game.
+ */
+struct game
+{
+  struct grid* solution; // grid with the mines and numbers of adjacent
+  struct grid* current;  // current grid for the player
+  unsigned mines;
+  unsigned flagged;
+  unsigned flagged_mines;
+  unsigned covered;
+  unsigned turn;
+};
 
 /**
  * Create a new game of minesweeper with a grid
  * of size 'width' x 'heigh' and 'mines' number of mines.
+ * Set 'first_move' (if not NULL) in order to play the first move.
  */
-game_t*
-mock_game_new(unsigned width, unsigned heigh, unsigned mines);
+struct game*
+mock_game_new(unsigned width,
+              unsigned heigh,
+              unsigned mines,
+              struct coord* first_move);
 
 /**
  * Destroy a game previously created by 'mock_game_new'.
  */
 void
-mock_game_destroy(game_t* game);
+mock_game_destroy(struct game* game);
 
 /**
  * Dump the current grid from the player point of view.
  */
 void
-mock_game_dump(game_t* game);
+mock_game_dump(struct game* game);
 
 /**
  * Dump the solution grid.
@@ -53,6 +68,6 @@ enum ret
  * Flag, unflag or set an empty cell.
  */
 enum ret
-mock_game_play(game_t* game, enum action action, const struct coord* cell);
+mock_game_play(struct game* game, enum action action, const struct coord* cell);
 
 #endif /* !__GAME_H__ */

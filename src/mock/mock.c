@@ -6,8 +6,6 @@
 #include <minesweeper/neighbors.h>
 #include <mock/mock.h>
 
-#include "game.h"
-
 static inline void
 mock_init_solution(struct grid* solution, unsigned mines)
 {
@@ -41,8 +39,25 @@ mock_init_current(struct grid* current)
   }
 }
 
+static inline void
+find_first_move(const struct grid* solution, struct coord* first_move)
+{
+  for (unsigned i = 0; i < solution->height; ++i) {
+    for (unsigned j = 0; j < solution->width; ++j) {
+      if (GET(solution, j, i) == EMPTY) {
+        first_move->x = j;
+        first_move->y = i;
+        return;
+      }
+    }
+  }
+}
+
 struct game*
-mock_game_new(unsigned width, unsigned height, unsigned mines)
+mock_game_new(unsigned width,
+              unsigned height,
+              unsigned mines,
+              struct coord* first_move)
 {
   /* too much mines for the dims */
   if (mines != 0 && mines > width * height) {
@@ -59,6 +74,9 @@ mock_game_new(unsigned width, unsigned height, unsigned mines)
   grid_adjacents(game->solution, game->solution);
   mock_init_current(game->current);
   game->covered = width * height;
+  if (first_move != NULL) {
+    find_first_move(game->solution, first_move);
+  }
 
   return game;
 }

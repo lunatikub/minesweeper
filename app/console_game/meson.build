@@ -3,7 +3,7 @@ minesweeper = executable(
   'minesweeper',
   mock_src,
   minesweeper_src,
-  'minesweeper.c',
+  'console_game.c',
   include_directories: inc,
   c_args: flags,
 )
