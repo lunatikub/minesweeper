@@ -25,12 +25,12 @@ TEST_F(bounds, simple)
 
   struct matrix* A = matrix_new(m, n);
   matrix_set(A, elts);
-  struct bounds* bounds = compute_bounds(A);
+  struct bounds* bounds = bounds_compute(A);
   for (unsigned i = 0; i < m; i++) {
     EXPECT_TRUE(bounds->lower[i] == lower_expected[i]);
     EXPECT_TRUE(bounds->upper[i] == upper_expected[i]);
   }
-  destroy_bounds(bounds);
+  bounds_destroy(bounds);
   matrix_destroy(A);
 
   return true;

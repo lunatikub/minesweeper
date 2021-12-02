@@ -67,4 +67,8 @@ find_first_mine(const struct grid* grid, struct coord* coord)
   const static unsigned h __attribute__((unused)) = H;                         \
   const static unsigned m __attribute__((unused)) = M;
 
+#define GRID(G, W, H, INIT_GRID)                                               \
+  G = grid_create(W, H);                                                       \
+  CELLS_SET(G, G_INIT);
+
 #endif /* !__COMMON_H__ */
