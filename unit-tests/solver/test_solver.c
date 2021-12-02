@@ -24,6 +24,9 @@ const static struct test solver_tests[] = {
   TEST(map, post),
   TEST(bounds, simple),
   TEST(solver, simple),
+  TEST(solver, already_resolved),
+  TEST(solver, post),
+//  TEST(solver, advanced),
 };
 /* clang-format on */
 

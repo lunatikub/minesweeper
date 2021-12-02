@@ -22,4 +22,10 @@ struct solution
 struct solution*
 solve(const struct grid* grid);
 
+/**
+ * Destroy a solution previously allocated by 'solve'.
+ */
+void
+solution_destroy(struct solution* solution);
+
 #endif /* !__SOLVER_H__ */

@@ -1,11 +1,14 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+#include <debug.h>
 #include <matrix/matrix.h>
 #include <minesweeper/neighbors.h>
 #include <solver/solver.h>
 
 #include "configuration.h"
+
+#define MODULE "solver"
 
 PRIVATE_EXCEPT_UNIT_TEST
 bool
@@ -15,21 +18,28 @@ find_unsolved(const struct grid* grid, struct coord* unsolved)
     for (unsigned x = 0; x < grid->width; ++x) {
       if (GET(grid, x, y) >= 1 && GET(grid, x, y) <= 8) {
         bool covered_neighboor = false;
+        unsigned nr_flagged = 0;
         /* clang-format off */
         FOREACH_NEIGHBORS(
           grid, x, y,
           if (GET(grid, neighbor.x, neighbor.y) == COVERED) {
             covered_neighboor = true;
-          });
+          }
+          if (GET(grid, neighbor.x, neighbor.y) == FLAGGED) {
+            ++nr_flagged;
+          }
+          );
         /* clang-format on */
-        if (covered_neighboor == true) {
+        if (covered_neighboor == true && GET(grid, x, y) > nr_flagged) {
           unsolved->x = x;
           unsolved->y = y;
+          DBG("found: (%u:%u)\n", x, y);
           return true;
         }
       }
     }
   }
+  DBG("not found\n");
   return false;
 }
 
@@ -75,6 +85,7 @@ configuration_get_unsolved(struct context* ctx, struct coord unsolved_cell)
     ctx->grid, unsolved_cell.x, unsolved_cell.y,
     unsigned v = GET(ctx->grid, neighbor.x, neighbor.y);
     if (v >= 1 && v <= 8 &&
+        is_solved(ctx->grid, neighbor.x, neighbor.y) == false &&
         list_cell_exist(ctx->unsolved, neighbor) == false) {
       configuration_get_unsolved(ctx, neighbor);
     });
@@ -132,6 +143,8 @@ configuration_create(const struct grid* grid)
 
   struct coord unsolved_cell;
   if (find_unsolved(grid, &unsolved_cell) == false) {
+    context_destroy(ctx);
+    free(cfg);
     return NULL;
   }
   configuration_get_unsolved(ctx, unsolved_cell);

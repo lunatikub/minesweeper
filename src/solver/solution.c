@@ -7,7 +7,7 @@
 
 PRIVATE_EXCEPT_UNIT_TEST
 struct bounds*
-compute_bounds(const struct matrix* A)
+bounds_compute(const struct matrix* A)
 {
   struct bounds* bounds = calloc(1, sizeof(*bounds));
 
@@ -31,7 +31,7 @@ compute_bounds(const struct matrix* A)
 
 PRIVATE_EXCEPT_UNIT_TEST
 void
-destroy_bounds(struct bounds* bounds)
+bounds_destroy(struct bounds* bounds)
 {
   free(bounds->lower);
   free(bounds->upper);
@@ -40,10 +40,10 @@ destroy_bounds(struct bounds* bounds)
 
 PRIVATE_EXCEPT_UNIT_TEST
 void
-set_empty(const struct configuration* cfg,
-          const struct matrix* A,
-          const struct bounds* bounds,
-          struct solution* solution)
+solution_set_empty(const struct configuration* cfg,
+                   const struct matrix* A,
+                   const struct bounds* bounds,
+                   struct solution* solution)
 {
   list_cell_t* empty = list_cell_create();
 
@@ -58,16 +58,16 @@ set_empty(const struct configuration* cfg,
     }
   }
 
-  solution->empty = list_cell_to_array(empty, &solution->nr_mine);
+  solution->empty = list_cell_to_array(empty, &solution->nr_empty);
   list_cell_destroy(empty);
 }
 
 PRIVATE_EXCEPT_UNIT_TEST
 void
-set_mines(const struct configuration* cfg,
-          const struct matrix* A,
-          const struct bounds* bounds,
-          struct solution* solution)
+solution_set_mines(const struct configuration* cfg,
+                   const struct matrix* A,
+                   const struct bounds* bounds,
+                   struct solution* solution)
 {
   list_cell_t* mines = list_cell_create();
 
@@ -87,15 +87,24 @@ set_mines(const struct configuration* cfg,
 }
 
 struct solution*
-deduce_solution(const struct configuration* cfg, const struct matrix* A)
+solution_deduce(const struct configuration* cfg, const struct matrix* A)
 {
   struct solution* solution = calloc(1, sizeof(*solution));
   struct bounds* bounds;
 
-  bounds = compute_bounds(A);
-  set_empty(cfg, A, bounds, solution);
-  set_mines(cfg, A, bounds, solution);
-  destroy_bounds(bounds);
+  bounds = bounds_compute(A);
+
+  solution_set_empty(cfg, A, bounds, solution);
+  solution_set_mines(cfg, A, bounds, solution);
+  bounds_destroy(bounds);
 
   return solution;
+}
+
+void
+solution_destroy(struct solution* solution)
+{
+  free(solution->mines);
+  free(solution->empty);
+  free(solution);
 }
